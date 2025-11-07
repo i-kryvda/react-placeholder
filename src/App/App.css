@@ -22,10 +22,6 @@
 :active {
   outline: none;
 }
-:focus {
-  /* outline: none; // В зависомости от проекта */
-  /* border: 10px solid yellow; */
-}
 
 nav,
 footer,
@@ -99,4 +95,11 @@ h6 {
   /* Желательно добавить общие стили через SCSS */
   font-size: inherit;
   font-weight: 400;
+}
+
+/* ================================= */
+
+.input {
+  background-color: white;
+  padding: 10px;
 }
