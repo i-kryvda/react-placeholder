@@ -22,10 +22,6 @@
 :active {
   outline: none;
 }
-:focus {
-  /* outline: none; // В зависомости от проекта */
-  /* border: 10px solid yellow; */
-}
 
 nav,
 footer,
