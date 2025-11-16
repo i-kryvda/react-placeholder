@@ -1,5 +1,9 @@
-// import { useCounter } from "@app/store/CounterContext";
-
+import {
+  increment,
+  decrement,
+  setRandom,
+  reset,
+} from "@app/store/counter/action";
 import { useDispatch, useSelector } from "react-redux";
 import css from "./Counter.module.css";
 
@@ -8,39 +12,39 @@ type State = {
 };
 
 export function Counter() {
-  // const { state, dispatch } = useCounter();
   const dispatch = useDispatch();
   const state = useSelector((state: State) => state.counter);
 
-  const onIncrement = () => {
-    dispatch({ type: "INC" });
-  };
-
-  const onDecrement = () => {
-    dispatch({ type: "DEC" });
-  };
-  const onReset = () => {
-    dispatch({ type: "RESET" });
-  };
-
-  const onRandom = () => {
-    const random = Math.floor(Math.random() * 100);
-    dispatch({ type: "RND", payload: random });
+  const handleRandom = () => {
+    const value = Math.floor(Math.random() * 100);
+    dispatch(setRandom(value));
   };
 
   return (
     <div className={css.counter}>
       <div className={css.buttons}>
-        <button type="button" className={css.button} onClick={onIncrement}>
+        <button
+          type="button"
+          className={css.button}
+          onClick={() => dispatch(increment())}
+        >
           Increment
         </button>
-        <button type="button" className={css.button} onClick={onDecrement}>
+        <button
+          type="button"
+          className={css.button}
+          onClick={() => dispatch(decrement())}
+        >
           Decriment
         </button>
-        <button type="button" className={css.button} onClick={onReset}>
+        <button
+          type="button"
+          className={css.button}
+          onClick={() => dispatch(reset())}
+        >
           Reset
         </button>
-        <button type="button" className={css.button} onClick={onRandom}>
+        <button type="button" className={css.button} onClick={handleRandom}>
           Random
         </button>
       </div>
