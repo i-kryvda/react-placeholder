@@ -1,13 +1,17 @@
-export const fetchApi = {
-  getUsers: () => {
-    return fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => {
-        if (!response.ok) throw new Error(`Error ${response.status}`);
-        return response.json();
-      })
-      .catch((e) => {
-        console.error("От халепа", e);
-        return [];
-      });
+import axios from "axios";
+
+export const api = {
+  getUsers: async () => {
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("ERROR FETCH USERS", error);
+      // return [];
+      throw error; // ❌ кидаємо далі, щоб Redux Thunk зловив
+    }
   },
 };

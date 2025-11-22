@@ -1,42 +1,44 @@
 // import { useState } from "react";
 // import { fetchApi } from "@shared/api/users";
 
-import { useEffect } from "react";
-import css from "./Users.module.css";
-import { useSelector, useDispatch } from "react-redux";
+// import { useEffect } from "react";
+
 import { fetchUsers } from "@app/store/users/thunks";
-import { type AppDispatch } from "@app/store";
+import { useAppSelector } from "@shared/hooks/useAppSelector/useAppSelector";
+import { useAppDispatch } from "@shared/hooks/useAppDispatch/useAppDispatch";
+
+import css from "./Users.module.css";
 
 export function Users() {
-  // const [users, setUsers] = useState<UsersType[]>([]);
+  const { users, loading, error } = useAppSelector((state) => state.users);
+  console.log(error);
 
-  const { users } = useSelector((state) => state.users);
+  const dispatch = useAppDispatch();
 
-  console.log(users);
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
+  const handleFetch = () => {
     dispatch(fetchUsers());
-  }, []);
-
-  // const handleFetch = () => {
-  //   fetchApi.getUsers().then((json) => setUsers(json));
-  // };
+  };
 
   return (
     <>
-      <button type="button" className={css.button}>
+      <button type="button" className={css.button} onClick={handleFetch}>
         FETCH
       </button>
 
       <div className={css.items}>
-        {users.length === 0 && <div>Немає данних</div>}
-        {users.map((item) => (
-          <div className={css.item} key={item.id}>
-            {item.name}
-          </div>
-        ))}
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div className={css.error}>Error: {error}</div>
+        ) : users.length === 0 ? (
+          <div>No users found</div>
+        ) : (
+          users.map((item) => (
+            <div className={css.item} key={item.id}>
+              {item.name}
+            </div>
+          ))
+        )}
       </div>
     </>
   );

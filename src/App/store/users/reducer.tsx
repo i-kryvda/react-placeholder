@@ -17,7 +17,7 @@ export function usersReducer(
     case ACTION.FETCH_USERS_SUCCESS:
       return { ...state, loading: false, users: action.payload };
     case ACTION.FETCH_USERS_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
