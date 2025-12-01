@@ -6,11 +6,9 @@
 > RTK have: Boilerplate - меньше коду
 > RTK have: immer - mutation checks (не думай про імутацію)
 
-redux/basic
-redux/thunk
-redux/saga
-redux/toolkit
-redux/toolkit-query
+# What is happened here ?
+
+Тут в нас є декілька речей [counter, posts, users] всі ці речі керуються за допомогою redux та підключається до store. Поки що ми працюємо з createStore та thunk, хоча toolkit вже підключений. Ми зробимо дуже прості речі це запити до placeholder json отримаємо posts та users, обробимо помилку, зробими loading, а також реалізуємо пагінацію, дуже частий case.
 
 @@@@@@@@@@@@@@@@@@@@
 
