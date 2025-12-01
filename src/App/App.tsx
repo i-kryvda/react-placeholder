@@ -1,3 +1,4 @@
+import Counter from "@components/organisms/Counter/Counter";
 import "./App.css";
 
 export default function App() {
@@ -7,7 +8,9 @@ export default function App() {
         <div className="header__container">header</div>
       </header>
       <main className="main">
-        <div className="main__container">main branch</div>
+        <div className="main__container">
+          <Counter />
+        </div>
       </main>
       <footer className="footer">
         <div className="footer__container">footer</div>
