@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchPosts } from "./posts.async";
+import { fetchPosts } from "./posts.thunk";
 import type { PostItem, PostsState } from "./posts.types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

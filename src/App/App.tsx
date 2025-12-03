@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./store/store";
-import { fetchPosts } from "./store/posts/posts.async";
+import { fetchPosts } from "./store/posts/posts.thunk";
 import { removePost } from "./store/posts/posts.slice";
 import { increment } from "./store/couter/couter.slice";
 import { multiplyAction } from "./store/couter/couter.actions";
