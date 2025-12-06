@@ -7,3 +7,5 @@
 > Мінімум Boilerplate
 
 - createAsyncThunk, extraReducers, rejectWithValue, createAction
+
+> Додаємо fetch users => далі робимо пагінацію - That is it
