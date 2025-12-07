@@ -1,4 +1,4 @@
-@import "../shared/assets/styles/nullstyle.css";
+@import "../shared/assets/styles/nullstyle";
 
 html {
   font-size: 10px;
@@ -21,7 +21,6 @@ body {
   max-width: 123rem;
   margin: 0 auto;
   padding: 0 1.5rem;
-  /* border: 1px solid #424242; */
 }
 
 .main {
