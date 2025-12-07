@@ -1,0 +1,10 @@
+.item {
+  padding: 1rem;
+  border: 1px solid #424242;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}

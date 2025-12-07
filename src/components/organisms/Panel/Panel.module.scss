@@ -1,0 +1,7 @@
+.form {
+  border: 1px solid #424242;
+  padding: 1rem;
+  & * {
+    color: #fff;
+  }
+}

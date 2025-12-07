@@ -1,4 +1,4 @@
-@import "../shared/assets/styles/nullstyle";
+@use "../shared/assets/styles/nullstyle";
 
 html {
   font-size: 10px;
@@ -46,4 +46,10 @@ body {
   border: 1px solid #424242;
   padding: 25px 0px;
   background-color: #262626;
+}
+
+.button {
+  padding: 1rem;
+  background-color: white;
+  color: black;
 }
