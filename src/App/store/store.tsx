@@ -1,17 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { todosReducer } from "./todos/todos.slice";
-import { useDispatch, useSelector } from "react-redux";
-import { loadState, saveState } from "./todos/todos.utils";
-import { counterReducer } from "./counter/counter.slice";
+import {configureStore} from "@reduxjs/toolkit";
+import {todosReducer} from "./todos/todos.slice";
+import {useDispatch, useSelector} from "react-redux";
+import {loadState, saveState} from "./localStorage";
+import {counterReducer} from "./counter/counter.slice";
 
 const preloadedState = loadState();
 
 export const store = configureStore({
-  reducer: {
-    todos: todosReducer,
-    counter: counterReducer,
-  },
-  preloadedState,
+    reducer: {
+        todos: todosReducer,
+        counter: counterReducer,
+    },
+    preloadedState,
 });
 
 store.subscribe(() => saveState(store.getState()));
