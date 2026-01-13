@@ -1,60 +1,60 @@
 import { useState } from "react";
 
-import { RiMastodonLine } from "react-icons/ri";
+import {
+  MdDashboard,
+  MdPerson,
+  MdSettings,
+  MdLogout,
+  MdMenu,
+} from "react-icons/md";
 
-import { IoAddCircleOutline } from "react-icons/io5";
-import { MdOutlinePendingActions } from "react-icons/md";
-import { MdOutlineTaskAlt } from "react-icons/md";
+import { TbAtom2Filled } from "react-icons/tb";
+import { TfiPencilAlt } from "react-icons/tfi";
+// import { FaPenToSquare } from "react-icons/fa6";
+import { IoSearch } from "react-icons/io5";
+import { MdOutlineEventNote } from "react-icons/md";
+import { AiOutlineFileDone } from "react-icons/ai";
 
-import { FaSearch } from "react-icons/fa";
 import "./App.scss";
 
 export default function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleSidebar = () => setCollapsed((prev) => !prev);
 
   return (
     <>
-      <aside className={`sidebar ${isSidebarOpen ? "sidebar--open" : ""}`}>
-        <nav className="sidebar__nav">
-          <button
-            className="sidebar__toggle"
-            aria-label="Toggle sidebar"
-            onClick={() => setIsSidebarOpen((prev) => !prev)}
-          >
-            <RiMastodonLine size={24} />
-          </button>
-          {/* <a href="#" className="sidebar__logo"></a> */}
+      <aside className={`sidebar ${collapsed ? "sidebar--collapsed" : ""}`}>
+        <button className="sidebar__toggle" onClick={toggleSidebar}>
+          <TbAtom2Filled />
+        </button>
 
-          <ul className="sidebar__menu">
-            <li className="sidebar__menu-item">
-              <button>
-                <IoAddCircleOutline className="icon" />
-                <span className="sidebar__menu-text">Create</span>
-              </button>
+        <nav className="sidebar__nav">
+          <ul className="sidebar__list">
+            <li className="sidebar__item">
+              <TfiPencilAlt className="sidebar__icon" />
+              <span className="sidebar__text">Create task</span>
             </li>
-            <li className="sidebar__menu-item">
-              <button>
-                <FaSearch className="icon" />
-                <span className="sidebar__menu-text">Search</span>
-              </button>
+
+            <li className="sidebar__item">
+              <IoSearch className="sidebar__icon" />
+              <span className="sidebar__text">Search task</span>
             </li>
-            <li className="sidebar__menu-item">
-              <button>
-                <MdOutlinePendingActions className="icon" />
-                <span className="sidebar__menu-text">Active</span>
-              </button>
+
+            <li className="sidebar__item">
+              <MdOutlineEventNote className="sidebar__icon" />
+              <span className="sidebar__text">Active task</span>
             </li>
-            <li className="sidebar__menu-item">
-              <button>
-                <MdOutlineTaskAlt className="icon" />
-                <span className="sidebar__menu-text">Complete</span>
-              </button>
+
+            <li className="sidebar__item sidebar__item--logout">
+              <AiOutlineFileDone className="sidebar__icon" />
+              <span className="sidebar__text">Complete task</span>
             </li>
           </ul>
         </nav>
       </aside>
 
-      <div className={`app ${isSidebarOpen ? "app--sidebar-open" : ""}`}>
+      <div className={`app `}>
         <header className="header">
           <div className="header__container">Todo List With Redux</div>
         </header>
