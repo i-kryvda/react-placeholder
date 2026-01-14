@@ -1,0 +1,103 @@
+@keyframes rotateInfinite {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --sidebar-collapsed: 95px;
+  --sidebar-expanded: 260px;
+}
+
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  width: var(--sidebar-expanded);
+  min-height: 100%;
+  background-color: var(--sidebar-color);
+  padding: 2rem;
+  transition: width 0.3s ease;
+
+  &Collapsed {
+    width: var(--sidebar-collapsed);
+  }
+
+  &Collapsed &Text {
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+
+  &Collapsed &Toggle svg {
+    width: 100%;
+  }
+
+  &Toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    justify-content: space-between;
+    text-align: center;
+
+    // background-color: var(--toggle-color);
+    border: none;
+    // border: 1px solid red;
+    color: var(--primary-color);
+    font-size: 24px;
+    padding: 1rem;
+    svg {
+      width: auto;
+      // animation: rotateInfinite 30s linear infinite;
+      // background-color: var(--color-hover);
+      // transition: all 0.33s ease;
+    }
+
+    //
+  }
+
+  &Nav {
+    flex: 1;
+  }
+
+  &List {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &Item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 1.6rem;
+    border-radius: 1rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+  }
+
+  &Icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  &Text {
+    white-space: nowrap;
+    width: auto;
+    opacity: 1;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+}
