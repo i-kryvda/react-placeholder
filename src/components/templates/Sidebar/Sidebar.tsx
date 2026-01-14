@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { TbAtom2Filled } from "react-icons/tb";
 import { BsLayoutSidebar } from "react-icons/bs";
 import { TfiPencilAlt } from "react-icons/tfi";
 import { IoSearch } from "react-icons/io5";
 import { MdOutlineEventNote } from "react-icons/md";
 import { AiOutlineFileDone } from "react-icons/ai";
+
 import s from "./Sidebar.module.scss";
+import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const toggleSidebar = () => setCollapsed((prev) => !prev);
   // sidebar ${collapsed ? "sidebar--collapsed" : ""}
+
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <aside className={s.sidebar + (collapsed ? ` ${s.sidebarCollapsed}` : "")}>
       <button className={s.sidebarToggle} onClick={toggleSidebar}>
@@ -41,6 +45,12 @@ export function Sidebar() {
           </li>
         </ul>
       </nav>
+
+      <div className={s.themeToggle} data-theme={theme} onClick={toggleTheme}>
+        <div className={s.switch}>
+          <span className={s.circle} />
+        </div>
+      </div>
     </aside>
   );
 }

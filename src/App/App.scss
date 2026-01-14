@@ -10,6 +10,22 @@
   --text-color: #fff;
 }
 
+html[data-theme="dark"] {
+  --body-color: #1f1f1f;
+  --sidebar-color: #262626;
+  --toggle-color: #2a2a2a;
+  --text-color: #fff;
+}
+
+html[data-theme="light"] {
+  --body-color: #f9fafb;
+  --sidebar-color: #d7d7d7;
+  --toggle-color: #e5e7eb;
+  --text-color: #111;
+  --color-hover: #e26a60;
+  --primary-color: black;
+}
+
 html {
   font-size: 10px;
 }
