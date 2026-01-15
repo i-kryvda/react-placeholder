@@ -13,7 +13,6 @@
 }
 
 .sidebar {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -50,12 +49,6 @@
     font-size: 24px;
     padding: 1rem;
     transition: background-color 0.2s ease;
-    svg {
-      width: auto;
-      // animation: rotateInfinite 30s linear infinite;
-      // background-color: var(--color-hover);
-      // transition: all 0.33s ease;
-    }
 
     &:hover {
       background-color: var(--color-hover);
@@ -102,12 +95,11 @@
   }
 }
 .themeToggle {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  // transform: rotate(90deg);
   gap: 12px;
-  cursor: pointer;
 }
 
 /* Контейнер свічу */
@@ -124,7 +116,6 @@
     position: absolute;
     inset: 0;
     border-radius: 20px;
-    background: #f3f4f6;
     opacity: 0;
     transition: opacity 0.3s ease;
   }

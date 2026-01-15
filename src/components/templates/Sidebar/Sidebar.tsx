@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsLayoutSidebar } from "react-icons/bs";
 import { TfiPencilAlt } from "react-icons/tfi";
 import { IoSearch } from "react-icons/io5";
@@ -9,11 +9,19 @@ import s from "./Sidebar.module.scss";
 import { useTheme } from "@app/context/ThemeProvider/ThemeProvider";
 
 export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleSidebar = () => setCollapsed((prev) => !prev);
-  // sidebar ${collapsed ? "sidebar--collapsed" : ""}
-
+  const [collapsed, setCollapsed] = useState(() => {
+    const saved = localStorage.getItem("sidebar-collapsed");
+    if (saved !== null) return saved === "true";
+    // return window.innerWidth < 768; // мобільне за замовчуванням закрите
+    return true;
+  });
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    localStorage.setItem("sidebar-collapsed", collapsed.toString());
+  }, [collapsed]);
+
+  const toggleSidebar = () => setCollapsed((prev) => !prev);
 
   return (
     <aside className={s.sidebar + (collapsed ? ` ${s.sidebarCollapsed}` : "")}>
