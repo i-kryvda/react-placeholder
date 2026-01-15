@@ -1,7 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Prevent theme flash (FOUC)
+      try {
+        const stored = localStorage.getItem("theme");
+        const theme = stored === "dark" || stored === "light" ? stored : "dark";
+        document.documentElement.dataset.theme = theme;
+      } catch {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>modal</title>
