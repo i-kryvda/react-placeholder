@@ -26,11 +26,11 @@
     width: var(--sidebar-collapsed);
   }
 
+  &Collapsed &ToggleText,
   &Collapsed &Text {
     width: 0;
     opacity: 0;
     overflow: hidden;
-    transition: width 0.3s ease, opacity 0.3s ease;
   }
 
   &Collapsed &Toggle svg {
@@ -41,18 +41,22 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    text-transform: uppercase;
     justify-content: space-between;
-
-    border: none;
     color: var(--primary-color);
     font-size: 24px;
     padding: 1rem;
     transition: background-color 0.2s ease;
-
     &:hover {
       background-color: var(--color-hover);
     }
+  }
+
+  &ToggleText,
+  &Text {
+    white-space: nowrap;
+    width: auto;
+    opacity: 1;
+    transition: width 0.3s ease, opacity 0.3s ease;
   }
 
   &Nav {
@@ -86,75 +90,35 @@
     font-size: 20px;
     flex-shrink: 0;
   }
-
-  &Text {
-    white-space: nowrap;
-    width: auto;
-    opacity: 1;
-    transition: width 0.3s ease, opacity 0.3s ease;
-  }
 }
-.themeToggle {
-  cursor: pointer;
+
+.theme {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px;
-}
 
-/* Контейнер свічу */
-.switch {
-  width: 50px;
-  height: 28px;
-  border-radius: 20px;
-  background: #1f1f1f;
-  position: relative;
-  transition: background 0.3s ease;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+  &Switch {
+    cursor: pointer;
+    position: relative;
+    width: 50px;
+    height: 28px;
     border-radius: 20px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover .circle {
-    transform: translateY(-50%) scale(0.8);
-  }
-}
-
-/* Кружок */
-.circle {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  width: 20px;
-  height: 20px;
-  transform: translateY(-50%);
-  background: var(--primary-color);
-
-  border-radius: 50%;
-  transition: transform 0.3s ease, left 0.2s ease;
-}
-
-/* Світла тема */
-.themeToggle[data-theme="light"] {
-  .switch {
-    background: #e5e7eb;
     border: 1px solid var(--primary-color);
-    &::before {
-      opacity: 1;
-    }
+    transition: background 0.3s ease;
 
-    &:hover .circle {
-      transform: translateY(-50%) scale(0.9);
+    &:hover .themeCircle {
+      transform: translateX(var(--circle-x)) scale(0.8);
     }
   }
-
-  .circle {
-    left: 50%;
+  &Circle {
+    position: absolute;
+    top: 2.5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
     background: var(--primary-color);
+    transform: translateX(var(--circle-x)) scale(1);
+    transition: transform 0.3s ease;
   }
 }

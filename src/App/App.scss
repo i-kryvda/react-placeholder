@@ -8,6 +8,7 @@
   --toggle-color: #2a2a2a;
   --color-hover: #2a2a2a;
   --text-color: #fff;
+  --circle-x: 0px;
 }
 
 html[data-theme="light"] {
@@ -17,6 +18,7 @@ html[data-theme="light"] {
   --text-color: #111;
   --color-hover: #e26a60;
   --primary-color: black;
+  --circle-x: 19px;
 }
 
 html {

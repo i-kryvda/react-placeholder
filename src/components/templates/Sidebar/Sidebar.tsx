@@ -26,7 +26,7 @@ export function Sidebar() {
   return (
     <aside className={s.sidebar + (collapsed ? ` ${s.sidebarCollapsed}` : "")}>
       <button className={s.sidebarToggle} onClick={toggleSidebar}>
-        <span className={s.sidebarText}>Close</span>
+        <span className={s.sidebarToggleText}>Close</span>
         <BsLayoutSidebar />
       </button>
 
@@ -54,10 +54,15 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      <div className={s.themeToggle} data-theme={theme} onClick={toggleTheme}>
-        <div className={s.switch}>
-          <span className={s.circle} />
-        </div>
+      <div className={s.theme}>
+        <button
+          type="button"
+          aria-label="Toggle theme"
+          className={s.themeSwitch}
+          onClick={toggleTheme}
+        >
+          <span className={s.themeCircle} />
+        </button>
       </div>
     </aside>
   );
