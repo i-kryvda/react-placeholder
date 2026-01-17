@@ -25,40 +25,44 @@ export default function App() {
                 </button>
 
                 <form className="todo-editor">
-                  <div className="todo-editor__box">
+                  <div className="todo-editor__body">
                     <label htmlFor="todo-title" className="todo-editor__label">
                       Title
                     </label>
                     <input
                       type="text"
                       id="todo-title"
-                      className="todo-editor__input"
-                      placeholder="Task title"
+                      className="todo-editor__field todo-editor__field--title"
+                      placeholder="Create title..."
                     />
+
                     <label
                       htmlFor="todo-description"
                       className="todo-editor__label"
                     >
                       Description
                     </label>
-                    <textarea
+                    <input
+                      type="text"
                       id="todo-description"
-                      className="todo-editor__input"
-                      placeholder="Task description"
-                    ></textarea>
+                      className="todo-editor__field todo-editor__field--description"
+                      placeholder="Optional description..."
+                    />
                   </div>
+
                   <div className="todo-editor__actions">
                     <button
                       type="button"
-                      className="todo-editor__btn todo-editor__btn--cancel"
+                      className="todo-editor__btn todo-editor__btn--secondary"
                     >
                       Cancel
                     </button>
+
                     <button
                       type="submit"
-                      className="todo-editor__btn todo-editor__btn--submit"
+                      className="todo-editor__btn todo-editor__btn--primary"
                     >
-                      Add Task
+                      Add task
                     </button>
                   </div>
                 </form>
