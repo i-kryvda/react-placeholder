@@ -20,7 +20,7 @@
   min-height: 100%;
   background-color: var(--sidebar-color);
   padding: 2rem;
-  border-right: 1px solid #3a3a3a;
+  border-right: 1px solid var(--border-color);
   transition: width 0.3s ease;
 
   &Collapsed {
@@ -43,13 +43,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--primary-color);
     font-size: 24px;
+    text-transform: uppercase;
+    color: var(--primary-color);
     padding: 1rem;
     transition: background-color 0.2s ease;
-    &:hover {
-      background-color: var(--color-hover);
-    }
   }
 
   &ToggleText,

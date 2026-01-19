@@ -26,7 +26,7 @@ export function Sidebar() {
   return (
     <aside className={s.sidebar + (collapsed ? ` ${s.sidebarCollapsed}` : "")}>
       <button className={s.sidebarToggle} onClick={toggleSidebar}>
-        <span className={s.sidebarToggleText}>Close</span>
+        <span className={s.sidebarToggleText}>Todo</span>
         <BsLayoutSidebar />
       </button>
 

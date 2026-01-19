@@ -1,9 +1,13 @@
+import { useState } from "react";
+import { TodoEditor } from "@components/organisms/TodoEditor/TodoEditor";
+import { FaArrowDown } from "react-icons/fa6";
 import { Sidebar } from "@components/templates/Sidebar/Sidebar";
-import { IoAdd } from "react-icons/io5";
 
 import "./App.scss";
 
 export default function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Sidebar></Sidebar>
@@ -12,63 +16,40 @@ export default function App() {
           <div className="header__container">TODOLIST</div>
         </header>
         <main className="main">
-          <section className="todo-action">
-            <div className="todo-action__container">
-              {/* <h1 className="todo-action__title">Active</h1> */}
-              <div className="todo-action__editor">
-                <button
-                  type="button"
-                  className="todo-action__add-btn"
-                  aria-label="open todo editor"
-                >
-                  <IoAdd className="icon" /> <span>Create a task</span>
-                </button>
+          <div className="main__container">
+            {!isOpen && (
+              <section
+                className="todo-entry"
+                aria-labelledby="todo-entry-title"
+              >
+                <h1 id="todo-entry-title" className="visually-hidden">
+                  Create your first todo
+                </h1>
+                <div className="todo-entry__body">
+                  <FaArrowDown className="todo-entry__icon" />
+                  <button
+                    type="button"
+                    className="todo-entry__button"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    Create a task
+                  </button>
+                </div>
+              </section>
+            )}
 
-                <form className="todo-editor">
-                  <div className="todo-editor__body">
-                    <label htmlFor="todo-title" className="todo-editor__label">
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      id="todo-title"
-                      className="todo-editor__field todo-editor__field--title"
-                      placeholder="Create title..."
-                    />
-
-                    <label
-                      htmlFor="todo-description"
-                      className="todo-editor__label"
-                    >
-                      Description
-                    </label>
-                    <input
-                      type="text"
-                      id="todo-description"
-                      className="todo-editor__field todo-editor__field--description"
-                      placeholder="Optional description..."
-                    />
-                  </div>
-
-                  <div className="todo-editor__actions">
-                    <button
-                      type="button"
-                      className="todo-editor__btn todo-editor__btn--secondary"
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      type="submit"
-                      className="todo-editor__btn todo-editor__btn--primary"
-                    >
-                      Add task
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </section>
+            {isOpen && (
+              <section
+                className="todo-editor-section"
+                aria-labelledby="todo-editor-title"
+              >
+                <h2 id="todo-editor-title" className="visually-hidden">
+                  Todo Editor
+                </h2>
+                <TodoEditor onClose={() => setIsOpen(false)}></TodoEditor>
+              </section>
+            )}
+          </div>
         </main>
         <footer className="footer">
           <div className="footer__container">footer</div>
@@ -77,3 +58,13 @@ export default function App() {
     </>
   );
 }
+
+// import { IoAdd } from "react-icons/io5";
+// <button
+//                 type="button"
+//                 className="todo-action__add-btn"
+//                 aria-label="open todo editor"
+//                 onClick={() => setIsOpen(!isOpen)}
+//               >
+//                 <IoAdd className="icon" /> <span>Create a task</span>
+//               </button>

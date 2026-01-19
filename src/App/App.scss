@@ -1,32 +1,27 @@
 @use "../shared/assets/styles/nullstyle";
 
+// --accent-main
+// --accent-secondary
+
 :root {
-  --body-color: #1f1f1f;
-  --text-color: #fff;
+  --body-color: #1f1f1f; // --bg-main
+  --text-color: #fff; // text-primary
+  --text-secondory: #808080; // text-muted / text-secondory
+  --border-color: #3a3a3a;
+  --color-white: #fff; // delete / color-white
   --sidebar-color: #262626;
-
-  --circle-x: 0px;
-}
-
-:root {
   --primary-color: #e26a60;
-  --primary-color-light: #f6f5ff;
-
-  --toggle-color: #424242;
-
-  --color-hover: #2a2a2a;
-
-  --text-color-light: #808080;
+  --secondary-color: #424242;
+  --color-hover: #2a2a2a; // surface-hover / sidebar-hover (треба щось придумати) --hover-color / state-hover
+  //------------------------
+  --circle-x: 0px; // бажано винести окремо, (ui state) --toggle-circle-x
 }
 
 html[data-theme="light"] {
   --body-color: #f9fafb;
   --text-color: #111;
   --sidebar-color: #d7d7d7;
-  // --toggle-color: #e5e7eb;
-
   --color-hover: #e26a60;
-  // --primary-color: black;
   --circle-x: 19px;
 }
 
@@ -62,6 +57,10 @@ body {
   flex: 1 0 auto;
 }
 
+.main__container {
+  height: 100%;
+}
+
 .header,
 .footer {
   padding: 25px 0px;
@@ -88,103 +87,27 @@ body {
 
 //----------------------------------------------------------
 
-.todo-action {
-  &__title {
-    margin-bottom: 3rem;
-  }
-
-  &__add-btn {
-    font-size: inherit;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 0rem;
-    color: var(--text-color-light);
-    & svg {
-      font-size: 20px;
-      border-radius: 50%;
-      color: var(--primary-color);
-    }
-
-    &:hover {
-      color: var(--primary-color);
-    }
-
-    &:hover svg {
-      color: var(--text-color);
-      background-color: var(--primary-color);
-    }
-  }
-}
-
-.todo-editor {
-  // max-width: 480px;
-  width: 100%;
-  border: 1px solid #3a3a3a;
-  border-radius: 12px;
-
-  // background-color: var(--sidebar-color);
+.todo-entry {
+  // border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
 
   &__body {
-    padding: 1rem;
+    text-align: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
     flex-direction: column;
-    gap: 0.5rem;
-    border-bottom: 1px solid #2e2e2e;
   }
 
-  &__label {
-    font-size: 0;
-    opacity: 0;
-  }
-
-  &__field {
-    padding: 0.25rem 1rem;
-    border-radius: 8px;
-    color: #fff;
-
-    &:focus {
-      &::placeholder {
-        color: var(--primary-color);
-      }
-    }
-
-    &--title {
-      font-weight: 500;
-      font-size: 1.6rem;
-    }
-
-    &--description {
-      font-size: 1.4rem;
-      color: #b5b5b5;
-      &::placeholder {
-        font-weight: 400;
-        opacity: 0.5;
-      }
-    }
-  }
-
-  &__actions {
-    padding: 1.25rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-  }
-
-  &__btn {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-
-    &--secondary {
-      background-color: var(--toggle-color);
-      color: #fff;
-    }
-
-    &--primary {
-      background-color: var(--primary-color);
-      color: #fff;
-    }
+  &__button {
+    font-size: inherit;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--primary-color);
   }
 }
