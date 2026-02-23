@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TodoEditor } from "@components/organisms/TodoEditor/TodoEditor";
+import { TodoForm } from "@components/molecules/TodoForm/TodoForm";
 import { FaArrowDown } from "react-icons/fa6";
 import { Sidebar } from "@components/templates/Sidebar/Sidebar";
 
@@ -46,7 +46,7 @@ export default function App() {
                 <h2 id="todo-editor-title" className="visually-hidden">
                   Todo Editor
                 </h2>
-                <TodoEditor onClose={() => setIsOpen(false)}></TodoEditor>
+                <TodoForm onClose={() => setIsOpen(false)}></TodoForm>
               </section>
             )}
           </div>

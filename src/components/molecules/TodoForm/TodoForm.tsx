@@ -1,6 +1,6 @@
-import s from "./TodoEditor.module.scss";
+import s from "./TodoForm.module.scss";
 
-export function TodoEditor({ onClose }: { onClose: () => void }) {
+export function TodoForm({ onClose }: { onClose: () => void }) {
   return (
     <form className={s.editor}>
       <div className={s.editorBody}>
