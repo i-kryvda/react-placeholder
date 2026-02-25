@@ -47,3 +47,24 @@ body {
   padding: 25px 0px;
   background-color: #262626;
 }
+
+//-----------------------------------------------
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid white;
+
+    & button {
+      background-color: #f39898;
+      padding: 1rem;
+    }
+  }
+}

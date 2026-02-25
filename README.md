@@ -1,31 +1,17 @@
-# Frontend Placeholder
+# PRODUCTION-GRADE MODAL SYSTEM
 
-> Репозиторій для навчання. Кожна гілка — окрема тема.
+### Perfect modal
 
-## HELP
+- ✓ Portal (document.body)
+- ✓ Stack LIFO — кожен Escape/close прибирає верхню
+- ✓ Stable ID — crypto.randomUUID()
+- ✓ Escape — контрольований (closeOnEscape option)
+- ✓ Overlay click — контрольований (closeOnOverlayClick)
+- ✓ Scroll lock без layout shift (scrollbar compensation)
+- ✓ Focus trap (Tab / Shift+Tab cycle + повернення фокусу)
+- ✓ ARIA (role=dialog, aria-modal, aria-labelledby)
+- ✓ Loading state (spinner, aria-live)
+- ✓ Animation lifecycle (entering/entered/exiting/exited)
+- ✓ Proper cleanup (timeouts, listeners, focus restore)
 
-- `experiment/` - ця гілка придназначеня для експерементів яка може стати новою фічею
-- `hotfix/` - ця гілка придназначення для редагування основної гілки main
-- `bugfix/` - ця гілка потрібна для редагування конкретної фічі, тому відштовхуємось від фічі
-- `feature/` - ця гіка для конкретної фічі
-- `develop/` - ця гілка для практикування
-- `gist/` - Можливо, але дуже навряд зроблю таку гілку gist/Portal
-
-## Список залежностей
-
-- vite-tsconfig-paths - (це потрібно щоб налаштувати Alias)
-- framer motion
-
-## Допоміжні команди
-
-- `git clean -fd` - видалить усі не відслідковувані файли та папки
-- `git restore .` - Відміни зміни у відслідковуваних файлах (які вже були додані Git)
-- `git reset --hard` - повертає проект до останнього коміта.
-- `git reset --hard <commit-id>` - можна вказати
-
-> Ідеально буде зробити git clean -fd + git reset --hard
-
-- git push --all origin
-  > Запушити всі гілки на github
-- git push origin --delete name-branch
-- git push origin name-branch
+---
