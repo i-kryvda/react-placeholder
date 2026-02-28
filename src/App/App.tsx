@@ -3,6 +3,28 @@ import { useModalManager } from "@app/context/ModalManager/ModalManager.tsx";
 import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal.tsx";
 import "./App.scss";
 
+function NestedModal() {
+  const { openModal, closeModal } = useModalManager();
+
+  const handleOpenModal = () => {
+    openModal((modalId) => (
+      <ConfirmDeleteModal
+        onClose={() => closeModal(modalId)}
+        onConfirm={() => console.log("Confirmed")}
+      />
+    ));
+  };
+
+  return (
+    <>
+      <button type="button" onClick={handleOpenModal}>
+        Open Modal
+      </button>
+      <button type="button">Cansel Modal</button>
+    </>
+  );
+}
+
 export default function App() {
   const [todos, setTodos] = useState([
     { id: 1, title: "todo1" },
@@ -21,20 +43,27 @@ export default function App() {
 
   const { openModal, closeModal } = useModalManager();
 
-  const deleteTodo = (id: number) => {
-    setTodos((prev) => prev.filter((item) => item.id !== id));
-  };
+  // const deleteTodo = (id: number) => {
+  //   setTodos((prev) => prev.filter((item) => item.id !== id));
+  // };
 
-  const handleOpenModal = (id: number) => {
-    openModal(
-      (modalId) => (
-        <ConfirmDeleteModal
-          onClose={() => closeModal(modalId)}
-          onConfirm={() => deleteTodo(id)}
-        />
-      ),
-      { closeOnOverlayClick: true, closeOnEscape: false }, // опционально, по умолчанию true
-    );
+  // const handleOpenModal = (id: number) => {
+  //   openModal(
+  //     (modalId) => (
+  //       <ConfirmDeleteModal
+  //         onClose={() => closeModal(modalId)}
+  //         onConfirm={() => deleteTodo(id)}
+  //       />
+  //     ),
+  //     { closeOnOverlayClick: true, closeOnEscape: false }, // опционально, по умолчанию true
+  //   );
+  // };
+
+  const handleOpenModal = () => {
+    openModal(() => <NestedModal />, {
+      closeOnOverlayClick: false,
+      closeOnEscape: false,
+    });
   };
 
   return (
@@ -48,7 +77,10 @@ export default function App() {
             {todos.map((item) => (
               <li className="todo-list__item" key={item.id}>
                 <p> {item.title}</p>
-                <button type="button" onClick={() => handleOpenModal(item.id)}>
+                {/* <button type="button" onClick={() => handleOpenModal(item.id)}>
+                  Delete
+                </button> */}
+                <button type="button" onClick={() => handleOpenModal()}>
                   Delete
                 </button>
               </li>

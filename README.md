@@ -5,11 +5,11 @@
 - ✓ Portal (document.body)
 - ✓ Stack LIFO — кожен Escape/close прибирає верхню
 - ✓ Stable ID — crypto.randomUUID()
-- ✓ Escape — (без) контроль (closeOnEscape option)
-- ✓ Scroll lock без layout shift (scrollbar compensation)
+- ✓ Escape — (без) контроль (closeOnEscape option) = useKeyEscape
+- ✓ Scroll lock без layout shift (scrollbar compensation) = useLockBodyScroll
 - ✓ Overlay click — контроль (closeOnOverlayClick)
 - ✔ ARIA (role=dialog, aria-modal, aria-labelledby or aria-label)
-- ✔ Focus trap (Tab / Shift+Tab cycle + повернення фокусу)
+- ✔ Focus trap (Tab / Shift+Tab cycle + повернення фокусу) = useFocusTrap
 - ❌ Loading state (spinner, aria-live)
 - ❌ Animation lifecycle (entering/entered/exiting/exited)
 - ❌ Proper cleanup (timeouts, listeners, focus restore)
@@ -24,7 +24,3 @@
 ### Update
 
 - Go to useReducer ?
-
-// active тільки для верхньої модалки
-// нижні не повинні перехоплювати Tab (need test)
-useFocusTrap(contentRef, isTop);

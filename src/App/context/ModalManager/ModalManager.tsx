@@ -1,15 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import type { ModalContextType, ModalType, OpenModalOptions } from "./types";
 import { Modal } from "@shared/ui/Modal/Modal";
 import { useLockBodyScroll } from "@shared/hooks/useLockBodyScroll/useLockBodyScroll";
 import { useKeyEscape } from "@shared/hooks/useKeyEscape/useKeyEscape";
-import { useFocusTrap } from "@shared/hooks/useFocusTrap/useFocusTrap";
 
 const ModalContext = createContext<ModalContextType | null>(null);
 
@@ -23,7 +16,6 @@ export function useModalManager() {
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [modals, setModals] = useState<ModalType[]>([]);
-  const contentRef = useRef<HTMLDivElement | null>(null);
 
   const openModal = (
     // цей прийом має назву "render prop" і він дозволяє модалу отримувати свій id, який генерується в openModal, щоб потім використовувати його для закриття саме цього модала
@@ -57,7 +49,6 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
 
   useLockBodyScroll(modals.length > 0);
   useKeyEscape(handleEscape, modals.length > 0);
-  useFocusTrap(contentRef, modals.length > 0);
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal, closeTopModal }}>
@@ -66,11 +57,10 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         <Modal
           key={modal.id}
           hasOverlay={index === modals.length - 1} // только верхний модал имеет оверлей
-          onOverlayClick={() => {
-            // если кликнули по оверлею верхнего модала и он разрешает закрываться по клику, то закрываем его
-            if (modal.closeOnOverlayClick) closeTopModal();
-          }}
-          contentRef={contentRef}
+          // если кликнули по оверлею верхнего модала и он разрешает закрываться по клику, то закрываем его
+          onOverlayClick={modal.closeOnOverlayClick ? closeTopModal : undefined}
+          // contentRef={contentRef}
+          isTopmost={index === modals.length - 1} // только верхний модал должен быть в фокусе
         >
           {modal.render(modal.id)}
         </Modal>

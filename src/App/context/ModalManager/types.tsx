@@ -3,7 +3,8 @@ export type ModalType = {
   render: (id: string) => React.ReactNode;
   closeOnOverlayClick?: boolean;
   closeOnEscape?: boolean;
-  contentRef?: React.RefObject<HTMLDivElement>;
+  // contentRef?: React.RefObject<HTMLDivElement>;
+  isTopmost?: boolean;
 };
 
 export type OpenModalOptions = {
