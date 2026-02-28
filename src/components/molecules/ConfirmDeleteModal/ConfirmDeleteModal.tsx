@@ -1,28 +1,25 @@
-import { useModalManager } from "@app/context/ModalManager/ModalManager";
-
 type ConfirmDeleteModalProps = {
   onConfirm: () => void;
-  modalId: string;
+  onClose: () => void;
 };
 
 export function ConfirmDeleteModal({
   onConfirm,
-  modalId,
-}: ConfirmDeleteModalProps) {
-  const { closeModal } = useModalManager();
 
+  onClose,
+}: ConfirmDeleteModalProps) {
   const handleConfirm = () => {
     onConfirm();
-    closeModal(modalId);
+    onClose();
   };
 
   return (
     <div>
-      <p>Are you sure?</p>
+      <h2>Are you sure?</h2>
       <button type="button" onClick={handleConfirm}>
         Yes
       </button>
-      <button type="button" onClick={() => closeModal(modalId)}>
+      <button type="button" onClick={() => onClose()}>
         No
       </button>
     </div>

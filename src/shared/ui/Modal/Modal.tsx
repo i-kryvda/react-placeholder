@@ -14,7 +14,14 @@ export function Modal({ children, hasOverlay, onOverlayClick }: ModalProps) {
         {hasOverlay && (
           <div className="modal__overlay" onClick={onOverlayClick} />
         )}
-        <div className="modal__content">{children}</div>
+        <div
+          className="modal__content"
+          role="dialog"
+          aria-modal="true"
+          aria-label="modal window"
+        >
+          {children}
+        </div>
       </div>
     </Portal>
   );

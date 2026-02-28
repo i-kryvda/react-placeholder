@@ -19,16 +19,22 @@ export default function App() {
     { id: 12, title: "todo12" },
   ]);
 
-  const { openModal } = useModalManager();
+  const { openModal, closeModal } = useModalManager();
 
   const deleteTodo = (id: number) => {
     setTodos((prev) => prev.filter((item) => item.id !== id));
   };
 
   const handleOpenModal = (id: number) => {
-    openModal((modalId) => (
-      <ConfirmDeleteModal modalId={modalId} onConfirm={() => deleteTodo(id)} />
-    ));
+    openModal(
+      (modalId) => (
+        <ConfirmDeleteModal
+          onClose={() => closeModal(modalId)}
+          onConfirm={() => deleteTodo(id)}
+        />
+      ),
+      { closeOnOverlayClick: true, closeOnEscape: false }, // опционально, по умолчанию true
+    );
   };
 
   return (
