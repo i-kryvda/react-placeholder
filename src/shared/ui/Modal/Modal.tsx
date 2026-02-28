@@ -5,9 +5,15 @@ type ModalProps = {
   children: React.ReactNode;
   hasOverlay?: boolean;
   onOverlayClick?: () => void;
+  contentRef?: React.RefObject<HTMLDivElement | null>;
 };
 
-export function Modal({ children, hasOverlay, onOverlayClick }: ModalProps) {
+export function Modal({
+  children,
+  hasOverlay,
+  onOverlayClick,
+  contentRef,
+}: ModalProps) {
   return (
     <Portal>
       <div className="modal">
@@ -15,6 +21,8 @@ export function Modal({ children, hasOverlay, onOverlayClick }: ModalProps) {
           <div className="modal__overlay" onClick={onOverlayClick} />
         )}
         <div
+          ref={contentRef}
+          tabIndex={-1}
           className="modal__content"
           role="dialog"
           aria-modal="true"

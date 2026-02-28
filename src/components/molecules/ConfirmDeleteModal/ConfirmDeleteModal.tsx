@@ -14,14 +14,25 @@ export function ConfirmDeleteModal({
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 20,
+      }}
+    >
       <h2>Are you sure?</h2>
-      <button type="button" onClick={handleConfirm}>
-        Yes
-      </button>
-      <button type="button" onClick={() => onClose()}>
-        No
-      </button>
+
+      <div style={{ display: "flex", gap: 10 }}>
+        <button autoFocus type="button" onClick={handleConfirm}>
+          Yes
+        </button>
+        <button type="button" onClick={() => onClose()}>
+          No
+        </button>
+      </div>
     </div>
   );
 }

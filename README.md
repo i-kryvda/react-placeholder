@@ -24,3 +24,7 @@
 ### Update
 
 - Go to useReducer ?
+
+// active тільки для верхньої модалки
+// нижні не повинні перехоплювати Tab (need test)
+useFocusTrap(contentRef, isTop);
