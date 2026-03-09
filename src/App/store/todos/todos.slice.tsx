@@ -5,6 +5,7 @@ import type { TodoItem, TodoState } from "./todos.types";
 export const initialState: TodoState = {
   todos: [],
   view: "list",
+  searchQuery: "",
 };
 
 export const todosSlice = createSlice({
@@ -40,9 +41,19 @@ export const todosSlice = createSlice({
     toggleView(state) {
       state.view = state.view === "list" ? "card" : "list";
     },
+
+    setSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload.trim().toLocaleLowerCase();
+    },
   },
 });
 
-export const { addTodo, deleteTodo, editTodo, completeTodo, toggleView } =
-  todosSlice.actions;
+export const {
+  addTodo,
+  deleteTodo,
+  editTodo,
+  completeTodo,
+  toggleView,
+  setSearchQuery,
+} = todosSlice.actions;
 export const todosReducer = todosSlice.reducer;

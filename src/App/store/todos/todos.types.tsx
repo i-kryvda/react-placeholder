@@ -9,4 +9,5 @@ export type ViewMode = "list" | "card";
 export type TodoState = {
   todos: TodoItem[];
   view: ViewMode;
+  searchQuery: string;
 };

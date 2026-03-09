@@ -1,12 +1,11 @@
 import { useAppSelector } from "@app/store/store";
 import { Item } from "@components/molecules/Item/Item";
 import styles from "./List.module.scss";
+import { selectSearchTodos } from "@app/store/todos/todos.selector";
 
 export function List() {
-  const todos = useAppSelector((state) => state.todos.todos);
-  console.log(todos);
+  const todos = useAppSelector(selectSearchTodos);
 
-  console.log(todos);
   return (
     <ul className={styles.list}>
       {todos.map((item) => (

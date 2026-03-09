@@ -1,0 +1,13 @@
+.counter {
+  padding: 3rem 0rem;
+
+  &Buttons {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &Result {
+    font-size: 3rem;
+  }
+}
