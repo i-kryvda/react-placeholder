@@ -9,5 +9,5 @@ export function useInput(initial: string = "") {
 
   const onReset = () => setValue("");
 
-  return { value, onChange, onReset, bind: { value, onChange } };
+  return { value, onChange, setValue, onReset, bind: { value, onChange } };
 }
