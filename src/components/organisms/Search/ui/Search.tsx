@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@app/store/store";
+import { clsx } from "clsx";
 import {
   selectSearchQuery,
   selectSearchTodos,
@@ -6,29 +7,44 @@ import {
 import { setSearchQuery } from "@app/store/todos/todos.slice";
 import { useInput, useDebounce } from "@shared/hooks";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { getHighlightParts } from "../model/utils/highlightMatch";
 import s from "./Search.module.scss";
 
+/*
+ * получаєм query з store
+ * onChange,
+ *
+ */
+// selectSearchTodos
 export function Search() {
+  const dispatch = useAppDispatch();
   const todos = useAppSelector(selectSearchTodos);
   const searchQuery = useAppSelector(selectSearchQuery);
-  const dispatch = useAppDispatch();
-  const { value, onChange, setValue } = useInput(searchQuery);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const debounced = useDebounce(value, 500);
+  const [isMouseActive, setIsMouseActive] = useState(false);
   const isSelectingRef = useRef(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);
-  };
+  const inputRef = useRef<null | HTMLInputElement>(null);
+  const { value, onChange, setValue } = useInput(searchQuery);
+  const debounced = useDebounce(value, 300);
 
   // правильно це виносити в selector ✔
   const suggestions = useMemo(() => {
-    return todos
-      .filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase()))
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .slice(0, 5);
+    return (
+      todos
+        .filter((todo) =>
+          todo.title.toLowerCase().includes(value.toLowerCase()),
+        )
+        // .sort((a, b) => a.title.localeCompare(b.title))
+        .slice(0, 5)
+    );
   }, [todos, value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);
+    // setSuggestionsOpen(true);
+    // setActiveIndex(-1);
+  };
 
   const handleSelect = (title: string) => {
     isSelectingRef.current = true;
@@ -80,7 +96,7 @@ export function Search() {
       return;
     }
 
-    setSuggestionsOpen(!!value);
+    setSuggestionsOpen(!!value && !inputRef.current?.focus());
   }, [value]);
 
   useEffect(() => {
@@ -89,7 +105,7 @@ export function Search() {
 
   return (
     <form className={s.search} onSubmit={(e) => e.preventDefault()}>
-      <label htmlFor="todo-search" className="visually-hidden">
+      <label htmlFor="search" className="visually-hidden">
         Search Todo
       </label>
 
@@ -97,26 +113,59 @@ export function Search() {
         <input
           value={value}
           onChange={handleChange}
-          onKeyDown={onKeyDown}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+              setIsMouseActive(false);
+            }
+            onKeyDown(e);
+          }}
           type="search"
-          id="todo-search"
+          ref={inputRef}
+          id="search"
           placeholder="Search Todo..."
+          role="combobox"
+          onBlur={() => setSuggestionsOpen(false)}
+          aria-autocomplete="list"
+          aria-controls="suggestions-list"
+          autoComplete="off"
         />
-
-        {suggestionsOpen && suggestions.length > 0 && (
-          <ul className={s.suggestions}>
-            {suggestions.map((item, index) => (
-              <li
-                key={item.id}
-                className={index === activeIndex ? s.active : ""}
-                onClick={() => handleSelect(item.title)}
-              >
-                {item.title}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
+
+      {suggestionsOpen && suggestions.length > 0 && (
+        <ul
+          className={s.suggestions}
+          id="suggestions-list"
+          role="listbox"
+          onMouseMove={() => setIsMouseActive(true)}
+        >
+          {suggestions.map((item, index) => (
+            <li
+              id="option-0"
+              role="option"
+              key={item.id}
+              className={clsx(
+                index === activeIndex && s.active,
+                isMouseActive && s.mouseActive,
+              )}
+              // className={index === activeIndex ? s.active : ""}
+              aria-selected={index === activeIndex}
+              // onClick={() => handleSelect(item.title)}
+              onMouseDown={() => handleSelect(item.title)}
+            >
+              {/* {item.title} */}
+              {getHighlightParts(item.title, searchQuery).map((part, i) =>
+                part.isMatch ? (
+                  <mark key={i} className={s.highlight}>
+                    {part.text}
+                  </mark>
+                ) : (
+                  <span key={i}>{part.text}</span>
+                ),
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
     </form>
   );
 }

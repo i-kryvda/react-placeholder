@@ -11,6 +11,8 @@ export const selectSearchTodos = createSelector(
   (todos, query) => {
     if (!query) return todos;
 
-    return todos.filter((todo) => todo.title.startsWith(query));
+    return todos.filter((todo) =>
+      todo.title.toLowerCase().startsWith(query.toLowerCase()),
+    );
   },
 );
