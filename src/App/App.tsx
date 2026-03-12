@@ -6,23 +6,10 @@ import { Header, Footer, Counter } from "@components/templates";
 import { Button } from "@components/atoms/Button/ui/Button";
 
 import "./App.scss";
-import { useEffect, useState } from "react";
 
 export default function App() {
   const { view } = useAppSelector((state) => state.todos);
   const dispatch = useAppDispatch();
-
-  const [test, setTest] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTest(false);
-    }, 3000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [test]);
 
   return (
     <>
