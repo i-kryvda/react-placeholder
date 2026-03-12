@@ -1,6 +1,6 @@
 .search {
   width: 100%;
-  position: relative;
+  // position: relative;
 
   &Field {
     border: 1px solid white;
@@ -16,13 +16,14 @@
 }
 
 .suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  // position: absolute;
+  // top: 100%;
+  // left: 0;
 
   width: 100%;
   background: #262626;
   border: 1px solid #ddd;
+
   border-top: transparent;
   border-radius: 6px;
   border-top-right-radius: 0;
