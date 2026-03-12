@@ -20,9 +20,11 @@ export function Search() {
   const dispatch = useAppDispatch();
   const todos = useAppSelector(selectSearchTodos);
   const searchQuery = useAppSelector(selectSearchQuery);
-  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  // const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const isSelectingRef = useRef(false);
+  // const isSelectingRef = useRef(false); // ???
+  const [isFocused, setIsFocused] = useState(false);
+
   const inputRef = useRef<null | HTMLInputElement>(null);
   const { value, onChange, setValue } = useInput(searchQuery);
   const debounced = useDebounce(value, 300);
@@ -32,24 +34,19 @@ export function Search() {
     return (
       todos
         .filter((todo) =>
-          todo.title.toLowerCase().includes(value.toLowerCase()),
+          todo.title.toLowerCase().startsWith(value.toLowerCase()),
         )
         // .sort((a, b) => a.title.localeCompare(b.title))
         .slice(0, 5)
     );
   }, [todos, value]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);
-    // setSuggestionsOpen(true);
-    // setActiveIndex(-1);
-  };
-
   const handleSelect = (title: string) => {
-    isSelectingRef.current = true;
+    // isSelectingRef.current = true;
     setValue(title);
     dispatch(setSearchQuery(title));
-    setSuggestionsOpen(false);
+    // setIsFocused(false);
+    // setSuggestionsOpen(false);
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,10 +69,11 @@ export function Search() {
         if (activeIndex >= 0) {
           e.preventDefault();
           handleSelect(suggestions[activeIndex].title);
+          inputRef.current?.blur();
         }
         break;
       case "Escape":
-        setSuggestionsOpen(false);
+        // setSuggestionsOpen(false);
         setActiveIndex(-1);
         break;
 
@@ -84,23 +82,26 @@ export function Search() {
           e.preventDefault();
           handleSelect(suggestions[activeIndex].title);
         }
-        setSuggestionsOpen(false);
+        // setSuggestionsOpen(false);
         break;
     }
   };
 
-  useEffect(() => {
-    if (isSelectingRef.current) {
-      isSelectingRef.current = false;
-      return;
-    }
+  // useEffect(() => {
+  //   if (isSelectingRef.current) {
+  //     isSelectingRef.current = false;
+  //     return;
+  //   }
 
-    setSuggestionsOpen(!!value && !inputRef.current?.focus());
-  }, [value]);
+  //   setSuggestionsOpen(!!value && !inputRef.current?.focus());
+  // }, [value]);
 
   useEffect(() => {
     dispatch(setSearchQuery(debounced));
   }, [debounced, dispatch]);
+
+  // const isOpen = suggestionsOpen && suggestions.length > 0;
+  const isOpen = isFocused && value && suggestions.length > 0;
 
   return (
     <form className={s.search} onSubmit={(e) => e.preventDefault()}>
@@ -111,21 +112,24 @@ export function Search() {
       <div className={s.searchField}>
         <input
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           onKeyDown={onKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           type="search"
           ref={inputRef}
           id="search"
           placeholder="Search Todo..."
           role="combobox"
-          onBlur={() => setSuggestionsOpen(false)}
+          // onBlur={() => setSuggestionsOpen(false)}
+
           aria-autocomplete="list"
           aria-controls="suggestions-list"
           autoComplete="off"
         />
       </div>
 
-      {suggestionsOpen && suggestions.length > 0 && (
+      {isOpen && (
         <ul className={s.suggestions} id="suggestions-list" role="listbox">
           {suggestions.map((item, index) => (
             <li
