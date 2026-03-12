@@ -22,7 +22,6 @@ export function Search() {
   const searchQuery = useAppSelector(selectSearchQuery);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [isMouseActive, setIsMouseActive] = useState(false);
   const isSelectingRef = useRef(false);
   const inputRef = useRef<null | HTMLInputElement>(null);
   const { value, onChange, setValue } = useInput(searchQuery);
@@ -113,12 +112,7 @@ export function Search() {
         <input
           value={value}
           onChange={handleChange}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-              setIsMouseActive(false);
-            }
-            onKeyDown(e);
-          }}
+          onKeyDown={onKeyDown}
           type="search"
           ref={inputRef}
           id="search"
@@ -132,24 +126,19 @@ export function Search() {
       </div>
 
       {suggestionsOpen && suggestions.length > 0 && (
-        <ul
-          className={s.suggestions}
-          id="suggestions-list"
-          role="listbox"
-          onMouseMove={() => setIsMouseActive(true)}
-        >
+        <ul className={s.suggestions} id="suggestions-list" role="listbox">
           {suggestions.map((item, index) => (
             <li
               id="option-0"
               role="option"
               key={item.id}
-              className={clsx(
-                index === activeIndex && s.active,
-                isMouseActive && s.mouseActive,
-              )}
-              // className={index === activeIndex ? s.active : ""}
+              className={
+                index === activeIndex
+                  ? `${s.suggestion} ${s.active}`
+                  : `${s.suggestion}`
+              }
               aria-selected={index === activeIndex}
-              // onClick={() => handleSelect(item.title)}
+              onMouseEnter={() => setActiveIndex(index)}
               onMouseDown={() => handleSelect(item.title)}
             >
               {/* {item.title} */}

@@ -43,17 +43,27 @@
   }
 }
 
-.mouseActive:hover {
-  background: silver;
+.suggestion {
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
-.active {
-  background: silver;
+.suggestion.active {
+  background: #2a7aef;
+  color: white;
 }
+
+// .mouseActive:hover {
+//   background: silver;
+// }
+
+// .active {
+//   background: silver;
+// }
 
 .highlight {
   font-weight: 600;
   // border: 1px solid red;
-  color: red;
+  color: silver;
   background: none; /* не робимо background щоб не конфліктувало з optionActive */
 }
