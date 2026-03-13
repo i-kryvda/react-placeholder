@@ -19,6 +19,7 @@ import { getHighlightParts } from "../model/utils/highlightMatch";
 import s from "./Search.module.scss";
 import { useDropdownPosition } from "../model/hook/useDropdownPosition";
 import { useClickOutside } from "../model/hook/useClickOutside";
+import { useKeyboardNavigation } from "../model/hook/useKeyboardNavigation";
 
 export function Search() {
   const dispatch = useAppDispatch();
@@ -50,14 +51,6 @@ export function Search() {
     // .slice(0, 3)
   }, [todos, value]);
 
-  const scrollToActive = (index: number) => {
-    const container = suggestionsRef.current;
-    const el = container?.children[index] as HTMLElement;
-    if (!el || !container) return;
-
-    el.scrollIntoView({ block: "nearest" });
-  };
-
   const closeDropdown = useCallback(() => {
     setIsOpen(false);
     setHighlightedIndex(-1);
@@ -76,53 +69,21 @@ export function Search() {
     closeDropdown();
   };
 
-  // [suggestions,setHighlightedIndex,scrollToActive, handleSelect, closeDropdown, onReset  ]
-  //
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Escape") {
+  const onKeyDown = useKeyboardNavigation({
+    suggestions,
+    suggestionsRef,
+    highlightedIndex,
+    isKeyboardNavigation,
+    onSelect: handleSelect,
+    onEscape: () => {
       onReset();
       closeDropdown();
-    }
-
-    if (!suggestions.length) return;
-
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        isKeyboardNavigation.current = true;
-        const next =
-          highlightedIndex < suggestions.length - 1 ? highlightedIndex + 1 : 0;
-        setHighlightedIndex(next);
-        scrollToActive(next);
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        isKeyboardNavigation.current = true;
-        const prev =
-          highlightedIndex > 0 ? highlightedIndex - 1 : suggestions.length - 1;
-        setHighlightedIndex(prev);
-        scrollToActive(prev);
-        break;
-      case "Enter":
-        if (highlightedIndex >= 0) {
-          e.preventDefault();
-          handleSelect(suggestions[highlightedIndex].title);
-          // inputRef.current?.blur();
-        }
-        break;
-      case "Tab":
-        if (highlightedIndex >= 0) {
-          e.preventDefault();
-          handleSelect(suggestions[highlightedIndex].title);
-        }
-        break;
-    }
-  };
+    },
+    onHighlight: (i) => setHighlightedIndex(i),
+  });
 
   useClickOutside(containerRef, closeDropdown);
 
-  // useDebouncedDispatch
   useEffect(() => {
     dispatch(setSearchQuery(debounced));
   }, [debounced, dispatch]);

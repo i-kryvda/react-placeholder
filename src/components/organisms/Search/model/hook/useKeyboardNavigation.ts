@@ -5,9 +5,9 @@ type Props = {
   suggestionsRef: React.RefObject<HTMLUListElement | null>;
   highlightedIndex: number;
   isKeyboardNavigation: React.RefObject<boolean>;
-  onSelect: (title: string) => void; // handleSelect
-  onEscape: () => void; // onReset + closeDropdown
-  onHighlight: (index: number) => void; // setHighlightedIndex(index)
+  onSelect: (title: string) => void;
+  onEscape: () => void;
+  onHighlight: (index: number) => void;
   onHighlightReset?: () => void;
 };
 
