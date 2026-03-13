@@ -23,8 +23,6 @@ export function Item({ item }: ItemProps) {
     setIsEditing(false);
   };
 
-  console.log(item.completed);
-
   return (
     <li className={styles.item}>
       {isEditing ? (

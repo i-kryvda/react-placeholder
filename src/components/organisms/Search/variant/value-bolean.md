@@ -10,7 +10,7 @@ const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsOpen(false);
   }
 
-  setActiveIndex(-1);
+  setHighlightedIndex(-1);
 };
 
 
@@ -22,14 +22,14 @@ const onBlur = () => {
 const handleSelect = (title: string) => {
   setValue(title);
   setIsOpen(false);
-  setActiveIndex(-1);
+  setHighlightedIndex(-1);
 };
 
 
 <li
   key={item.id}
-  className={index === activeIndex ? "suggestion active" : "suggestion"}
-  onMouseEnter={() => setActiveIndex(index)}
+  className={index === highlightedIndex ? "suggestion active" : "suggestion"}
+  onMouseEnter={() => setHighlightedIndex(index)}
   onMouseDown={() => handleSelect(item.title)}  // важливо
 >
   {item.title}
@@ -47,9 +47,9 @@ const onKeyDown = () => {
 ...
 
 case "Enter":
-      if (activeIndex >= 0) {
+      if (highlightedIndex >= 0) {
         e.preventDefault();
-        handleSelect(suggestions[activeIndex].title);
+        handleSelect(suggestions[highlightedIndex].title);
         inputRef.current?.blur(); // синхронізуємо DOM focus
       }
       break;

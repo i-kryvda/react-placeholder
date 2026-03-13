@@ -1,17 +1,19 @@
 .search {
   width: 100%;
   // position: relative;
+  padding: 1rem;
+  border: 1px solid white;
 
   &Field {
-    border: 1px solid white;
     // border-bottom: transparent;
-    padding: 1rem;
+    // padding: 1rem;
 
     // border-radius: 6px;
   }
 
   &Field input {
     color: white;
+    width: 100%;
   }
 }
 
@@ -20,27 +22,15 @@
   // top: 100%;
   // left: 0;
 
-  width: 100%;
+  // width: 100%;
   background: #262626;
-  border: 1px solid #ddd;
-
-  border-top: transparent;
-  border-radius: 6px;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
 
   max-height: 200px;
   overflow-y: auto;
 
-  z-index: 10;
-
   & li {
     padding: 8px 12px;
     cursor: pointer;
-  }
-
-  & li:hover {
-    // background: silver;
   }
 }
 

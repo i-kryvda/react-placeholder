@@ -15,7 +15,7 @@ export function Search() {
   const dispatch = useAppDispatch();
   const todos = useAppSelector(selectSearchTodos);
   const searchQuery = useAppSelector(selectSearchQuery);
-  const [activeIndex, setActiveIndex] = useState(-1);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [isFocused, setIsFocused] = useState(false);
 
   const inputRef = useRef<null | HTMLInputElement>(null);
@@ -44,31 +44,31 @@ export function Search() {
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setActiveIndex((prev) =>
+        setHighlightedIndex((prev) =>
           prev < suggestions.length - 1 ? prev + 1 : 0,
         );
         break;
       case "ArrowUp":
         e.preventDefault();
-        setActiveIndex((prev) =>
+        setHighlightedIndex((prev) =>
           prev > 0 ? prev - 1 : suggestions.length - 1,
         );
         break;
       case "Enter":
-        if (activeIndex >= 0) {
+        if (highlightedIndex >= 0) {
           e.preventDefault();
-          handleSelect(suggestions[activeIndex].title);
+          handleSelect(suggestions[highlightedIndex].title);
           inputRef.current?.blur();
         }
         break;
       case "Escape":
-        setActiveIndex(-1);
+        setHighlightedIndex(-1);
         break;
 
       case "Tab":
-        if (activeIndex >= 0) {
+        if (highlightedIndex >= 0) {
           e.preventDefault();
-          handleSelect(suggestions[activeIndex].title);
+          handleSelect(suggestions[highlightedIndex].title);
         }
         break;
     }
@@ -112,12 +112,12 @@ export function Search() {
               role="option"
               key={item.id}
               className={
-                index === activeIndex
+                index === highlightedIndex
                   ? `${s.suggestion} ${s.active}`
                   : `${s.suggestion}`
               }
-              aria-selected={index === activeIndex}
-              onMouseEnter={() => setActiveIndex(index)}
+              aria-selected={index === highlightedIndex}
+              onMouseEnter={() => setHighlightedIndex(index)}
               onMouseDown={() => handleSelect(item.title)}
             >
               {getHighlightParts(item.title, searchQuery).map((part, i) =>
