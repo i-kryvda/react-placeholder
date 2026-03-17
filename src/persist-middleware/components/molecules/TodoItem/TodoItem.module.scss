@@ -1,0 +1,195 @@
+.item {
+  border: 1px solid var(--border-color);
+  background-color: var(--sidebar-color);
+
+  &Body {
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    word-break: break-word; // переносить довгі слова на новий рядок
+    overflow-wrap: anywhere; // сучасний аналог, робить теж саме
+  }
+
+  &Title {
+    padding: 1rem 0rem;
+    // border-bottom: 1px solid var(--border-color);
+    // margin-bottom: 1rem;
+  }
+
+  &Description {
+    padding: 1rem 0rem;
+    color: var(--text-secondory);
+    font-style: italic;
+  }
+
+  &Actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  // --------------
+
+  &StarWrap {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    width: 18px;
+    height: 18px;
+
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &Pinned {
+      & > .itemStarFill {
+        opacity: 1;
+        transform: scale(1.3);
+      }
+    }
+  }
+
+  &StarOutline,
+  &StarFill {
+    position: absolute;
+    fill: var(--color-yellow);
+    inset: 0;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  &StarFill {
+    opacity: 0;
+  }
+
+  &StarWrap:hover .itemStarFill {
+    opacity: 1;
+  }
+
+  &StarWrap:hover .itemStarOutline {
+    opacity: 0;
+  }
+
+  // ------------
+
+  &ButtonsWrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &Button {
+    cursor: pointer;
+
+    width: 15px;
+    height: 15px;
+
+    & > span {
+      font-size: 0;
+    }
+
+    &Edit {
+      background-color: var(--color-yellow);
+    }
+
+    &Delete {
+      background-color: var(--color-red);
+    }
+  }
+}
+
+.itemPinnedCount {
+  // left: 3rem;
+  // position: absolute;
+  color: var(--text-secondory);
+  // border: 1px solid red;
+}
+
+.itemLabel {
+  display: flex;
+  align-items: flex-start;
+  font-size: 1.8rem;
+  // line-height: 100%;
+  // border: 1px solid red;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nativeCheckbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.customCheckbox {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 1rem 0rem;
+  // border-radius: 50%;
+  border: 2px solid #9ca3af;
+  // border: 2px solid #006633;
+  display: grid;
+  place-items: center;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.nativeCheckbox:checked + .customCheckbox {
+  // background-color: #22c55e;
+  // border-color: #0f5c2b;
+  transform: scale(1.3); /* злегка збільшуємо */
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.customCheckbox::after {
+  content: "✓";
+  font-size: 12px;
+  color: #8fba5b;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.15s ease;
+}
+
+.nativeCheckbox:checked + .customCheckbox::after {
+  opacity: 1;
+  transform: scale(2.5);
+}
+
+.nativeCheckbox:checked ~ .itemTitle {
+  text-decoration: line-through;
+  color: #9ca3af;
+  opacity: 0.7;
+  transition: 0.2s ease;
+}
+
+.nativeCheckbox:focus-visible + .customCheckbox {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 5px;
+}
+
+// 00000000000000000000000000000000000000
+
+.nativeCheckbox:checked + .customCheckbox {
+  animation: pop 0.25s forwards;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

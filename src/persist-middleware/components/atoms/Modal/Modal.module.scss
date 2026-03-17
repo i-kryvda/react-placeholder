@@ -1,0 +1,24 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+
+  &Overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  &Content {
+    position: relative;
+    background-color: var(--sidebar-color);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    max-width: 42rem;
+    width: 90%;
+    overflow: hidden;
+  }
+}

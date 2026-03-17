@@ -1,0 +1,137 @@
+.titleCounter {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  // color: var(--success-color);
+  opacity: 0.5;
+}
+
+.error {
+  padding: 8px 15px;
+  color: var(--primary-color);
+  font-size: 1rem;
+  border-radius: 12px;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+
+  background-color: var(--secondary-color);
+  pointer-events: none;
+  transition:
+    opacity 0.33s ease,
+    transform 0.33s ease-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+
+    background: var(--primary-color);
+    background-color: var(--secondary-color);
+    bottom: -3px;
+    left: 14px;
+    transform: rotate(45deg);
+    z-index: -1;
+  }
+}
+
+.editor {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // border-radius: 12px;
+
+  &Body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &Field {
+    padding: 0.25rem 1rem;
+    width: 75%;
+    // border: 1px solid white;
+    // padding-right: 15%;
+    color: var(--text-primary);
+    word-break: break-word; // переносить довгі слова на новий рядок
+    overflow-wrap: anywhere; // сучасний аналог, робить теж саме
+
+    &:focus {
+      &::placeholder {
+        color: var(--primary-color);
+      }
+    }
+
+    &Title {
+      font-weight: 500;
+      font-size: 1.6rem;
+    }
+
+    &Description {
+      font-size: 1.4rem;
+
+      &::placeholder {
+        font-weight: 400;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &Footer {
+    display: flex;
+    justify-content: space-between;
+    // gap: 0.75rem;
+    align-items: flex-end;
+    overflow: hidden;
+    // border: 1px solid red;
+    height: 100%;
+    padding: 2rem;
+  }
+
+  &Buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  &Btn {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.11s ease;
+
+    &Secondary {
+      background-color: var(--secondary-color);
+      color: var(--color-white);
+
+      &:hover:not(:disabled) {
+        background-color: var(--secondary-color-hover);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    &Primary {
+      background-color: var(--primary-color);
+      color: var(--color-white);
+
+      &:hover:not(:disabled) {
+        background-color: var(--primary-color-hover);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        background-color: var(--secondary-color);
+        cursor: not-allowed;
+        opacity: 0.7;
+        opacity: 0.5;
+      }
+    }
+  }
+}

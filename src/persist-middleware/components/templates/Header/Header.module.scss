@@ -1,0 +1,10 @@
+.header {
+  padding: 25px 0px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}

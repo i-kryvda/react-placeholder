@@ -1,0 +1,50 @@
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  // gap: 3rem;
+  border: 1px solid var(--border-color);
+
+  &Header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    // margin-bottom: 2rem;
+    color: var(--text-secondory);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &Body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  &Bar {
+    height: 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+
+    &Long {
+      width: 90%;
+    }
+
+    &Short {
+      width: 60%;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

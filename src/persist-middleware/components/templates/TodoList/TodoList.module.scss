@@ -1,0 +1,40 @@
+.todo {
+  padding-top: 5rem;
+
+  &Header {
+    // border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    margin-bottom: 3rem;
+  }
+
+  &ToggleViewButton {
+    font-size: 1.6rem;
+
+    display: flex;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.33s ease;
+
+    &:hover {
+      border-bottom: 1px solid var(--primary-color);
+    }
+
+    svg {
+      color: var(--primary-color);
+      transition: color 0.33s ease;
+    }
+
+    &:hover svg {
+      color: var(--primary-color-hover);
+    }
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
