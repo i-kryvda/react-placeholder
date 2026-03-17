@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useModalManager } from "@app/context/ModalManager/ModalManager.tsx";
+import { useModalManager } from "@app/context/ModalManager/ModalManager";
 import { ConfirmDeleteModal } from "@components/molecules/ConfirmDeleteModal/ConfirmDeleteModal.tsx";
 import "./App.scss";
 
