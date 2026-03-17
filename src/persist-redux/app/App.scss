@@ -1,0 +1,115 @@
+@use "../shared/assets/styles/null-style.scss";
+@import url("https://fonts.googleapis.com/css2?family=Electrolize&display=swap");
+$font-face: "Electrolize", sans-serif;
+
+// --accent-main
+// --accent-secondary
+
+:root {
+  --bg-main: #1f1f1f;
+  --text-primary: #fff;
+  --text-secondory: #808080;
+  --border-color: #3a3a3a;
+  --color-white: #fff;
+  --color-yellow: #ffba32;
+  --color-blue: #2b5278;
+  --color-red: #fa584e;
+  --sidebar-color: #262626;
+  --primary-color: #e26a60;
+  --success-color: #006633;
+  --primary-color-hover: #d38080;
+  --secondary-color: #424242;
+  --secondary-color-hover: #323232;
+  --hover-color: #2a2a2a;
+}
+
+:root {
+  --toggle-circle-x: 0px;
+}
+
+html[data-theme="light"] {
+  --bg-main: #f9fafb;
+  --text-primary: #111;
+  --sidebar-color: #d7d7d7;
+  --hover-color: #f9fafb;
+  --toggle-circle-x: 19px;
+}
+
+:root {
+  --sidebar-collapsed: 90px;
+  --sidebar-expanded: 260px;
+}
+
+html {
+  font-size: 10px;
+  // scrollbar-gutter: stable;
+  // overflow-y: scroll;
+}
+
+body {
+  font-family: $font-face;
+  font-size: 1.6rem;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  overflow-y: scroll;
+}
+
+#root {
+  min-height: 100%;
+  display: flex;
+  overflow-x: hidden;
+}
+
+[class*="__container"] {
+  max-width: 113rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.app {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 260px;
+  transition: margin-left 0.3s ease;
+}
+
+.appCollapsed {
+  margin-left: 90px;
+}
+
+.main {
+  flex: 1 0 auto;
+}
+
+.main__container {
+  height: 100%;
+}
+
+.footer {
+  padding: 25px 0px;
+}
+
+.header__container,
+.footer__container {
+  max-width: 183rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+//----------------------------------------------------------
+
+//------------------------------------

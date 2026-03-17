@@ -27,7 +27,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@persist-legacy/*": ["src/persist-legacy/*"],
-      "@persist-middleware/*": ["src/persist-middleware/*"]
+      "@persist-middleware/*": ["src/persist-middleware/*"],
+      "@persist-redux/*": ["src/persist-redux/*"]
     }
   },
   "include": ["."]

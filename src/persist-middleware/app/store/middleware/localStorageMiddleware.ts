@@ -9,14 +9,18 @@ export const localStorageMiddleware: Middleware<{}, RootState> =
     const state = store.getState();
 
     // Зберігаємо тільки те, що потрібно
+
+    const todosExclude = state.todos.todos.map(({ pinned, ...todo }) => todo);
+
     const stateToPersist = {
-      todos: state.todos, // все з todos зберігаємо
-      counter: {
-        // можна виключити конкретні поля
-        ...state.counter,
-        value: undefined, // value не зберігати
-      },
-      // theme не додаємо → slice виключено
+      // todos: state.todos,
+      // Якщо без виключення то все просто тоді без todosExclude, зберігаємо весь state.todos
+      todos: {
+        ...state.todos,
+        todos: todosExclude,
+      }, // все з todos зберігаємо крім pinned
+      // counter: state.counter,
+      // counter не додаємо, для приклада
     };
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToPersist));
