@@ -1,6 +1,4 @@
-# fetch data basic
+# fetch data server
 
-1. Робимо базу apiFetch
-2. Отримання даних (api state) - getFetch
-3. UI logic - useTodos
-4. Відображення UI
+- По факту це як створювати велосипед який вже готовий - [axios, react-query]
+- Дуже багато Boilerplate буде якщо писати все руками, а це ще без пагінації навіть
