@@ -23,11 +23,10 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": "./src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@shared/*": ["shared/*"],
-      "@app/*": ["app/*"]
+      "@components/*": ["./src/components/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@app/*": ["./src/app/*"]
     }
   },
   "include": ["."]
