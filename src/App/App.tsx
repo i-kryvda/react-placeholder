@@ -1,233 +1,130 @@
-import { useEffect, useState } from "react";
 import "./App.scss";
+import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useProgressBar } from "@app/providers/progress-bar/model/useProgressBar";
 
-// entities/todos/model/types
+// shared/api/api.ts 📜
+const api = axios.create({
+  baseURL: "http://localhost:3001",
+});
+
+// shared/lib/delay.ts 📜
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+// entities/todo/model/types.ts 📜
 type Todo = {
-  userId: number;
   id: number;
   title: string;
   completed: boolean;
 };
 
-const BASE_URL = " http://localhost:3001";
+type TodoWithoutTitle = Omit<Todo, "title">;
+type TodoWithoutCompleted = Omit<Todo, "completed">;
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-// shared/api
-const api = async (url: string, options: RequestInit = {}) => {
-  return fetch(`${BASE_URL}${url}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
-  }).then((res) => {
-    if (!res.ok) {
-      throw new Error(`API request failed with status ${res.status}`);
-    }
-    return res.json();
-  });
-};
-/// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-// entities/todos/api
+// entities/todo/api 📜
 const getTodos = async () => {
-  const res: Todo[] = await api("/todos");
-  return res;
-};
-
-const createTodo = async (title: string) => {
-  const newTodo: Omit<Todo, "id"> = {
-    userId: 1,
-    title,
-    completed: false,
-  };
-  await delay(1000); // Simulate network delay
-  const res: Todo = await api("/todos", {
-    method: "POST",
-    body: JSON.stringify(newTodo),
-  });
-  return res;
+  await delay(500);
+  const { data } = await api.get("/todos");
+  return data;
 };
 
 const deleteTodo = async (id: number) => {
-  await delay(500); // Simulate network delay
+  await api.delete(`/todos/${id}`);
+};
 
-  await api(`/todos/${id}`, {
-    method: "DELETE",
+const createTodo = async (title: string) => {
+  await api.post("/todos", {
+    title,
+    completed: false,
   });
 };
 
-const updateTodo = async (id: number, updates: Partial<Todo>) => {
-  await delay(200); // Simulate network delay
-
-  const res: Todo = await api(`/todos/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(updates),
+const toggleTodo = async ({ id, completed }: TodoWithoutTitle) => {
+  await api.patch(`/todos/${id}`, {
+    completed,
   });
-  return res;
 };
 
-const patchTodo = async (id: number, updates: Partial<Todo>) => {
-  await delay(200); // Simulate network delay
-
-  const res: Todo = await api(`/todos/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify(updates),
+const editTodo = async ({ id, title }: TodoWithoutCompleted) => {
+  await api.patch(`/todos/${id}`, {
+    title,
   });
-  return res;
 };
 
-/// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-// entities/todos/model
-const useTodos = (setTodos: React.Dispatch<React.SetStateAction<Todo[]>>) => {
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchTodos = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data: Todo[] = await getTodos();
-      setTodos(data);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  return { error, loading };
+// entities/todo/model/hooks 📜
+const useTodos = () => {
+  return useQuery({
+    queryKey: ["todos"],
+    queryFn: () => getTodos(),
+  });
 };
 
-// features/createTodo/model
-const useCreateTodo = (
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
-) => {
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-  const create = async (title: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const newTodo = await createTodo(title);
-      setTodos((prevTodos) => [...prevTodos, newTodo]);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
+// features/delete-todo/model/hooks 📜
+const useDeleteTodo = () => {
+  const queryClient = useQueryClient();
 
-  return { create, error, loading };
+  return useMutation({
+    mutationFn: (id: number) => deleteTodo(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 };
 
-// features/deleteTodo/model
-const useDeleteTodo = (
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
-) => {
-  const [deletingId, setDeletingId] = useState<number | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const remove = async (id: number) => {
-    setDeletingId(id);
-    setError(null);
-    try {
-      await deleteTodo(id);
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setDeletingId(null);
-    }
-  };
-
-  return { remove, error, deletingId };
+// features/create-todo/model/hooks 📜
+const useCreateTodo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["createTodo"], // Optional, but can be useful for debugging and devtools
+    mutationFn: (title: string) => createTodo(title),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 };
 
-// features/toggleTodo/model
-const useToggleTodo = (
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
-) => {
-  // const prev = todos;
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+// features/toggle-todo/model/hooks 📜
 
-  const toggle = async (id: number) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const updated = await patchTodo(id, { completed: true });
-      setTodos((prevTodos) =>
-        prevTodos.map((todo) => (todo.id === id ? updated : todo)),
-      );
-    } catch (error) {
-      setError((error as Error).message);
-      // setTodos(prev); // rollback
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { toggle, error, loading };
+const useToggleTodo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["toggleTodo"], // Optional
+    mutationFn: ({ id, completed }: TodoWithoutTitle) =>
+      toggleTodo({ id, completed }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 };
 
-// features/updateTodo/model
-const useUpdateTodo = (
-  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>,
-) => {
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const update = async (id: number, updates: Partial<Todo>) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const updatedTodo = await updateTodo(id, updates);
-      setTodos((prevTodos) =>
-        prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo)),
-      );
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { update, error, loading };
+// features/edit-todo/model/hooks 📜
+const useEditTodo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["editTodo"], // Optional
+    mutationFn: ({ id, title }: TodoWithoutCompleted) =>
+      editTodo({ id, title }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 };
-
-/// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// TodoItem: entities/todos/ui/TodoItem
-// TodoList: widgets/ui/TodoList
-// features - createTodo, deleteTodo, updateTodo
 
 export default function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [value, setValue] = useState("");
-
-  const {
-    create,
-    error: createError,
-    loading: createLoading,
-  } = useCreateTodo(setTodos);
-
-  const { error, loading } = useTodos(setTodos);
-
-  const { remove, deletingId } = useDeleteTodo(setTodos);
-
-  const { toggle } = useToggleTodo(setTodos);
-  const { update } = useUpdateTodo(setTodos);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (todos.length === 0) return <div>No todos found</div>;
+  const { data, isLoading } = useTodos();
+  const { mutate: deleteTodoMutate } = useDeleteTodo();
+  const { mutate: createTodoMutate } = useCreateTodo();
+  const { mutate: toggleTodoMutate } = useToggleTodo();
+  const { mutate: editTodoMutate } = useEditTodo();
+  const { visible, progress } = useProgressBar();
 
   return (
     <>
@@ -237,39 +134,52 @@ export default function App() {
       <main className="main">
         <h1 className="main__container">main</h1>
 
-        <input
-          type="text"
-          placeholder="Enter todo title"
-          className="todo-create-input"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+        <div
+          className={`progress-bar ${!visible ? "hidden" : ""}`}
+          style={{ width: `${progress}%` }}
         />
-        <button
-          type="button"
-          className="todo-create-button"
-          onClick={() => create(value)}
-          disabled={createLoading}
-        >
-          {createLoading ? "Creating..." : "Create Todo"}
-        </button>
-        {createError && <div className="error">Error: {createError}</div>}
 
-        <ul>
-          {todos.slice(0, 10).map((todo) => (
+        <div className="add-todo">
+          <input
+            type="text"
+            className="todo-create-input"
+            placeholder="What needs to be done?"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <button type="button" onClick={() => createTodoMutate(value)}>
+            Add
+          </button>
+        </div>
+
+        {isLoading && <p>Loading...</p>}
+
+        <ul style={{ padding: "10rem 0rem" }}>
+          {data?.map((todo: any) => (
             <li key={todo.id} className="todo-item">
               <p>
                 {todo.title} {todo.completed ? "✓" : "✗"}
               </p>
               <div className="todo-buttons">
-                <button type="button" onClick={() => toggle(todo.id)}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    toggleTodoMutate({
+                      id: todo.id,
+                      completed: !todo.completed,
+                    })
+                  }
+                >
                   Toggle
                 </button>
-                <button type="button" onClick={() => remove(todo.id)}>
-                  {deletingId === todo.id ? "Deleting..." : "Delete"}
+                <button type="button" onClick={() => deleteTodoMutate(todo.id)}>
+                  Delete
                 </button>
                 <button
                   type="button"
-                  onClick={() => update(todo.id, { title: "Updated Title" })}
+                  onClick={() =>
+                    editTodoMutate({ id: todo.id, title: "new title" })
+                  }
                 >
                   Edit
                 </button>

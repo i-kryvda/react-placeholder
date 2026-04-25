@@ -1,4 +1,6 @@
-# fetch data server
+# react query + json server (CRUD)
 
-- По факту це як створювати велосипед який вже готовий - [axios, react-query]
-- Дуже багато Boilerplate буде якщо писати все руками, а це ще без пагінації навіть
+- CRUD [GET, PATCH, DELETE, POST]
+- react query
+- json server
+- UI [ProgressBar]

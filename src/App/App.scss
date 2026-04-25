@@ -11,7 +11,7 @@ body {
 }
 
 #root {
-  overflow: hidden;
+  // overflow: hidden;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -24,7 +24,6 @@ body {
 }
 
 .main {
-  border: 1px solid #424242;
   flex: 1 0 auto;
 }
 
@@ -74,4 +73,20 @@ body {
   border: 1px solid white;
   padding: 10px;
   color: white;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #2a7aef;
+  transition:
+    width 0.2s ease-out,
+    opacity 0.2s ease;
+  z-index: 9999;
+}
+
+.progress-bar.hidden {
+  opacity: 0;
 }
