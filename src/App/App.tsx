@@ -1,6 +1,11 @@
 import "./App.scss";
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useState } from "react";
 import { useProgressBar } from "@app/providers/progress-bar/model/useProgressBar";
 
@@ -15,22 +20,43 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // entities/todo/model/types.ts 📜
+
+type PaginatedResponse = {
+  data: Todo[];
+  total: number;
+};
+
 type Todo = {
   id: number;
   title: string;
   completed: boolean;
+  createdAt: string;
 };
 
-type TodoWithoutTitle = Omit<Todo, "title">;
-type TodoWithoutCompleted = Omit<Todo, "completed">;
+type ToggleTodoDto = Pick<Todo, "id" | "completed">;
+type UpdateTodoDto = Pick<Todo, "id" | "title">;
+
+type GetTodosParams = {
+  page?: number;
+  limit?: number;
+};
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // entities/todo/api 📜
-const getTodos = async () => {
+const getTodos = async (params: GetTodosParams): Promise<PaginatedResponse> => {
   await delay(500);
-  const { data } = await api.get("/todos");
-  return data;
+
+  const { data, headers } = await api.get<Todo[]>("/todos", {
+    params: {
+      _sort: "createdAt",
+      _order: "desc",
+      _page: params.page || 1,
+      _limit: params.limit || 10,
+    },
+  });
+
+  return { data, total: Number(headers["x-total-count"] ?? 0) };
 };
 
 const deleteTodo = async (id: number) => {
@@ -41,26 +67,30 @@ const createTodo = async (title: string) => {
   await api.post("/todos", {
     title,
     completed: false,
+    createdAt: new Date().toISOString(),
   });
 };
 
-const toggleTodo = async ({ id, completed }: TodoWithoutTitle) => {
+const toggleTodo = async ({ id, completed }: ToggleTodoDto) => {
   await api.patch(`/todos/${id}`, {
     completed,
   });
 };
 
-const editTodo = async ({ id, title }: TodoWithoutCompleted) => {
+const editTodo = async ({ id, title }: UpdateTodoDto) => {
   await api.patch(`/todos/${id}`, {
     title,
   });
 };
 
 // entities/todo/model/hooks 📜
-const useTodos = () => {
+const useTodos = (params: GetTodosParams) => {
   return useQuery({
-    queryKey: ["todos"],
-    queryFn: () => getTodos(),
+    queryKey: ["todos", params],
+    queryFn: () => getTodos(params),
+    placeholderData: keepPreviousData,
+
+    // select: (data) => [...data].sort((a, b) => b.id - a.id),
   });
 };
 
@@ -81,6 +111,7 @@ const useDeleteTodo = () => {
 // features/create-todo/model/hooks 📜
 const useCreateTodo = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["createTodo"], // Optional, but can be useful for debugging and devtools
     mutationFn: (title: string) => createTodo(title),
@@ -91,12 +122,12 @@ const useCreateTodo = () => {
 };
 
 // features/toggle-todo/model/hooks 📜
-
 const useToggleTodo = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["toggleTodo"], // Optional
-    mutationFn: ({ id, completed }: TodoWithoutTitle) =>
+    mutationFn: ({ id, completed }: ToggleTodoDto) =>
       toggleTodo({ id, completed }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
@@ -107,19 +138,26 @@ const useToggleTodo = () => {
 // features/edit-todo/model/hooks 📜
 const useEditTodo = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["editTodo"], // Optional
-    mutationFn: ({ id, title }: TodoWithoutCompleted) =>
-      editTodo({ id, title }),
+    mutationFn: ({ id, title }: UpdateTodoDto) => editTodo({ id, title }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 };
 
+const LIMIT = 3;
+
 export default function App() {
   const [value, setValue] = useState("");
-  const { data, isLoading } = useTodos();
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading } = useTodos({ page, limit: LIMIT });
+
+  const totalPages = data ? Math.ceil(data.total / LIMIT) : 0;
+
   const { mutate: deleteTodoMutate } = useDeleteTodo();
   const { mutate: createTodoMutate } = useCreateTodo();
   const { mutate: toggleTodoMutate } = useToggleTodo();
@@ -152,10 +190,27 @@ export default function App() {
           </button>
         </div>
 
+        <button
+          type="button"
+          className="todo-button"
+          onClick={() => setPage(page - 1)}
+          disabled={page <= 1}
+        >
+          Prev Page
+        </button>
+        <button
+          type="button"
+          className="todo-button"
+          onClick={() => setPage(page + 1)}
+          disabled={page >= totalPages}
+        >
+          Next Page
+        </button>
+
         {isLoading && <p>Loading...</p>}
 
         <ul style={{ padding: "10rem 0rem" }}>
-          {data?.map((todo: any) => (
+          {data?.data.map((todo: any) => (
             <li key={todo.id} className="todo-item">
               <p>
                 {todo.title} {todo.completed ? "✓" : "✗"}

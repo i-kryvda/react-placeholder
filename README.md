@@ -4,3 +4,4 @@
 - react query
 - json server
 - UI [ProgressBar]
+- api sort, [prev, next], total

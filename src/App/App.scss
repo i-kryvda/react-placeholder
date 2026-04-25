@@ -75,6 +75,15 @@ body {
   color: white;
 }
 
+.todo-button {
+  border: 1px solid white;
+  padding: 2px;
+
+  &:disabled {
+    color: silver;
+  }
+}
+
 .progress-bar {
   position: fixed;
   top: 0;
