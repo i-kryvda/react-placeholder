@@ -1,8 +1,9 @@
 import "./App.scss";
 import axios from "axios";
 import {
-  useInfiniteQuery,
+  keepPreviousData,
   useMutation,
+  useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { useState } from "react";
@@ -43,26 +44,19 @@ type GetTodosParams = {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 // entities/todo/api 📜
-const getTodos = async ({
-  pageParam,
-}: {
-  pageParam: number | null;
-}): Promise<PaginatedResponse> => {
+const getTodos = async (params: GetTodosParams): Promise<PaginatedResponse> => {
   await delay(500);
 
   const { data, headers } = await api.get<Todo[]>("/todos", {
     params: {
       _sort: "createdAt",
       _order: "desc",
-      _page: pageParam,
-      _limit: 5,
+      _page: params.page || 1,
+      _limit: params.limit || 10,
     },
   });
 
-  return {
-    data,
-    total: Number(headers["x-total-count"]),
-  };
+  return { data, total: Number(headers["x-total-count"] ?? 0) };
 };
 
 const deleteTodo = async (id: number) => {
@@ -90,20 +84,13 @@ const editTodo = async ({ id, title }: UpdateTodoDto) => {
 };
 
 // entities/todo/model/hooks 📜
+const useTodos = (params: GetTodosParams) => {
+  return useQuery({
+    queryKey: ["todos", params],
+    queryFn: () => getTodos(params),
+    placeholderData: keepPreviousData,
 
-const useTodos = () => {
-  return useInfiniteQuery({
-    queryKey: ["todos"],
-    queryFn: ({ pageParam }) => getTodos({ pageParam }),
-
-    initialPageParam: 1,
-
-    getNextPageParam: (lastPage, allPages) => {
-      const totalPages = Math.ceil(lastPage.total / 5);
-      const nextPage = allPages.length + 1;
-
-      return nextPage <= totalPages ? nextPage : undefined;
-    },
+    // select: (data) => [...data].sort((a, b) => b.id - a.id),
   });
 };
 
@@ -161,24 +148,21 @@ const useEditTodo = () => {
   });
 };
 
-// const LIMIT = 3;
+const LIMIT = 3;
 
 export default function App() {
   const [value, setValue] = useState("");
-  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useTodos();
+  const { data, isLoading } = useTodos({ page, limit: LIMIT });
 
-  // const totalPages = data ? Math.ceil(data.total / LIMIT) : 0;
+  const totalPages = data ? Math.ceil(data.total / LIMIT) : 0;
 
   const { mutate: deleteTodoMutate } = useDeleteTodo();
   const { mutate: createTodoMutate } = useCreateTodo();
   const { mutate: toggleTodoMutate } = useToggleTodo();
   const { mutate: editTodoMutate } = useEditTodo();
   const { visible, progress } = useProgressBar();
-
-  const todos = data?.pages.flatMap((page) => page.data) || [];
 
   return (
     <>
@@ -206,10 +190,27 @@ export default function App() {
           </button>
         </div>
 
+        <button
+          type="button"
+          className="todo-button"
+          onClick={() => setPage(page - 1)}
+          disabled={page <= 1}
+        >
+          Prev Page
+        </button>
+        <button
+          type="button"
+          className="todo-button"
+          onClick={() => setPage(page + 1)}
+          disabled={page >= totalPages}
+        >
+          Next Page
+        </button>
+
         {isLoading && <p>Loading...</p>}
 
         <ul style={{ padding: "10rem 0rem" }}>
-          {todos?.map((todo: any) => (
+          {data?.data.map((todo: any) => (
             <li key={todo.id} className="todo-item">
               <p>
                 {todo.title} {todo.completed ? "✓" : "✗"}
@@ -240,15 +241,6 @@ export default function App() {
               </div>
             </li>
           ))}
-
-          <li className="todo-item">
-            <button
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage ? "Loading..." : "Load More 2"}
-            </button>
-          </li>
         </ul>
       </main>
       <footer className="footer">

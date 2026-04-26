@@ -1,8 +1,10 @@
 import "./App.scss";
 import axios from "axios";
 import {
+  keepPreviousData,
   useInfiniteQuery,
   useMutation,
+  useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { useState } from "react";
