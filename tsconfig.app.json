@@ -23,11 +23,14 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": "./src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@shared/*": ["shared/*"],
-      "@app/*": ["app/*"]
+      "@components/*": ["./src/components/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@app/*": ["./src/app/*"],
+      "@redux/*": ["./src/counter-redux/*"],
+      "@toolkit/*": ["./src/counter-toolkit/*"],
+      "@context/*": ["./src/counter-context/*"],
+      "@zxcZustand/*": ["./src/counter-zustand/*"]
     }
   },
   "include": ["."]

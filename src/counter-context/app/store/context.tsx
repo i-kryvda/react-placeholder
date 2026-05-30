@@ -2,6 +2,22 @@
 
 import { createContext, useContext, useReducer } from "react";
 
+export const ACTIONS = {
+  INC: "INCREMENT",
+  DEC: "DECREMET",
+  RND: "RANDOM",
+} as const;
+
+type Action =
+  | { type: typeof ACTIONS.INC }
+  | { type: typeof ACTIONS.DEC }
+  | { type: typeof ACTIONS.RND; payload: number }
+  | { type: "RESET" };
+
+type State = {
+  counter: number;
+};
+
 type CounterContextType = {
   state: State;
   dispatch: React.Dispatch<Action>;
@@ -9,23 +25,13 @@ type CounterContextType = {
 
 const CounterContext = createContext<CounterContextType | null>(null);
 
-type State = {
-  counter: number;
-};
-
-type Action =
-  | { type: "INC" }
-  | { type: "DEC" }
-  | { type: "RND"; payload: number }
-  | { type: "RESET" };
-
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case "INC":
+    case ACTIONS.INC:
       return { ...state, counter: state.counter + 1 };
-    case "DEC":
+    case ACTIONS.DEC:
       return { ...state, counter: state.counter - 1 };
-    case "RND":
+    case ACTIONS.RND:
       return { ...state, counter: action.payload };
     case "RESET":
       return { ...state, counter: 0 };
