@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "email": "test@test.com",
+      "password": "$2a$10$nGlsRmQIJvy0eKZvm.NG2O6u/gNwCBnSxqfKXiOovoTVBb5LXNh0W",
+      "id": 1
+    }
+  ],
+  "posts": [
+    {
+      "title": "12341234123",
+      "completed": false,
+      "id": "YxuP-VgvBMA"
+    },
+    {
+      "title": "123",
+      "completed": false,
+      "id": "qAjvvFi"
+    },
+    {
+      "title": "1",
+      "completed": false,
+      "id": "WLtRjfG"
+    },
+    {
+      "title": "12341234",
+      "completed": false,
+      "id": "LazuFMI"
+    }
+  ]
+}
