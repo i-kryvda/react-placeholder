@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth } from "@/app/providers/AuthProvider";
 
 import "./AuthLayout.scss";
 
-function AuthLayout() {
-  const { auth } = useAuth();
+import { useAuth } from "@/app/context/AuthContext";
 
-  if (auth) {
+function AuthLayout() {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 

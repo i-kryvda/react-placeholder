@@ -1,6 +1,8 @@
 import { Link, Outlet } from "react-router";
-import { useAuth } from "@/app/providers/AuthProvider";
+
 import "./RootLayout.scss";
+
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function RootLayout() {
   const { logOut } = useAuth();
@@ -14,7 +16,7 @@ export default function RootLayout() {
             <Link to="/about">About</Link>
             <Link to="/feed">Feed</Link>
           </nav>
-          <button type="button" onClick={logOut}>
+          <button type="button" onClick={() => logOut()}>
             logout
           </button>
         </div>

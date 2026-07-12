@@ -1,11 +1,10 @@
 import { Navigate, Outlet } from "react-router";
-
-import { useAuth } from "@/app/providers/AuthProvider";
+import { useAuth } from "@/app/context/AuthContext";
 
 function RequireAuthGuard() {
-  const { auth } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  if (!auth) {
+  if (!isAuthenticated) {
     return <Navigate to="/auth" replace />;
   }
 

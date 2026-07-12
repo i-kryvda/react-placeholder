@@ -1,27 +1,54 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { useAuth } from "@/app/providers/AuthProvider";
+import { useLogin } from "@/shared/hooks/auth-query";
+
 import styles from "./LoginPage.module.scss";
 
 function Login() {
-  const { logIn } = useAuth();
-  const [value, setValue] = useState("");
+  const onLogin = useLogin();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const onChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLogin(e.target.value);
+  };
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const handleLogIn = () => {
-    if (value.trim() === "admin") logIn();
+    onLogin.mutate({ email: login, password });
   };
 
   return (
-    <div className={styles.login}>
-      <input type="text" placeholder="login" onChange={onChange} value={value} />
+    <form className={styles.auth} onSubmit={handleSubmit}>
+      <div className={styles.card}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Login"
+          onChange={onChangeLogin}
+          value={login}
+        />
 
-      <button type="button" onClick={handleLogIn}>
-        login
-      </button>
-      <Link to="/auth/register">register</Link>
-    </div>
+        <input
+          className={styles.input}
+          type="password"
+          placeholder="Password"
+          onChange={onChangePassword}
+          value={password}
+        />
+
+        <button type="submit" className={styles.button}>
+          LogIn
+        </button>
+
+        <Link className={styles.link} to="/auth/register">
+          into to register
+        </Link>
+      </div>
+    </form>
   );
 }
 
