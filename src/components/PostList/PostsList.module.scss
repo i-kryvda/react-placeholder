@@ -1,0 +1,135 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  // border: 1px solid #333c4d;
+
+  border-radius: 10px;
+  background: #333c4d;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    border-color: #d4d4d8;
+    // background: #fafafa;
+  }
+}
+
+.itemCompleted {
+  background: rgb(43, 73, 43);
+  border-color: #e4e4e7;
+}
+
+.index {
+  flex-shrink: 0;
+  width: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #a1a1aa;
+  text-align: right;
+}
+
+.title {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.titleCompleted {
+  color: #a1a1aa;
+  text-decoration: line-through;
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+}
+
+.toggleButtonDone {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+
+  &:hover {
+    background: #d1fae5;
+  }
+}
+
+.toggleButtonPending {
+  background: #f4f4f5;
+  border-color: #e4e4e7;
+  color: #71717a;
+
+  &:hover {
+    background: #e4e4e7;
+    color: #3f3f46;
+  }
+}
+
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #a1a1aa;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background: #fef2f2;
+    color: #dc2626;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+}

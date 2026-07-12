@@ -1,0 +1,14 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+
+  & > button {
+    padding: 1rem 3rem;
+    background-color: #ff7100;
+    border-radius: 1rem;
+    text-transform: uppercase;
+  }
+}

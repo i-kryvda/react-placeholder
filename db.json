@@ -1,0 +1,93 @@
+{
+  "users": [
+    {
+      "email": "test@test.com",
+      "password": "$2a$10$nGlsRmQIJvy0eKZvm.NG2O6u/gNwCBnSxqfKXiOovoTVBb5LXNh0W",
+      "id": 1
+    },
+    {
+      "email": "test2@test.com",
+      "password": "$2a$10$NATCD.oIBHfHRkpygXhlv.korT1vOpd44YgKGrrs8ua975e8IeKDm",
+      "name": "xxxDrako",
+      "id": 2
+    },
+    {
+      "email": "test2@test.com",
+      "password": "$2a$10$vggR8W1I6qJ4bIsnIR44AeBTNyLAiiu8F4.CXUa9Y36/7IgUH0Au.",
+      "name": "xxxDrako",
+      "id": 3
+    },
+    {
+      "email": "lol@gmail.com",
+      "password": "$2a$10$cc434YOeASi7aYQsxjYzbO2evDWHUrAvAvIGHvUJ0SAqtJMGhYeNS",
+      "id": 4
+    },
+    {
+      "email": "lol2@gmail.com",
+      "password": "$2a$10$bni6ozm5UOYRtmgqZ9hcbu1gFof84YTSRjHaZht3kdmIAvVVTygYy",
+      "id": 5
+    },
+    {
+      "email": "1234@gmail.com",
+      "password": "$2a$10$Kckd6cDKlXcIvMgMGRIzPuEtTNo8cWXg65IR0P2anaB2mawaEXI.6",
+      "id": 6
+    },
+    {
+      "email": "solo@gmail.com",
+      "password": "$2a$10$e./OiPG.MwXikrUDnz8OWOMp7umgFJoBNSfM23XOsriBVkz6eI6xe",
+      "id": 7
+    },
+    {
+      "email": "salo@gmail.com",
+      "password": "$2a$10$TkJVw2A9SdHYLvvMZAhYL.g9CMv62sjrw5Y5r/y/5XcS5JJzvSoXO",
+      "id": 8
+    },
+    {
+      "email": "pdd@gmail.com",
+      "password": "$2a$10$k5k8u6VkoWMHexDOyoxaQugn35qlKUjTHjiES575A8twMSAy.w.QK",
+      "id": 9
+    },
+    {
+      "email": "pdd2@gmail.com",
+      "password": "$2a$10$8.0nOG8i2z3aNyKC6G0jXuwKD7S.mTNlgs3tHe8nYeeGGs1MRK8HO",
+      "id": 10
+    },
+    {
+      "email": "ko@gmail.com",
+      "password": "$2a$10$oS0nuKrVQLulopZstc6xke9zvr3YdDZI6aXyJk3hDf0a5NPAdLURG",
+      "id": 11
+    },
+    {
+      "email": "xx@gmail.com",
+      "password": "$2a$10$1maTzw3Lk6AVK2JijguLbOyPdWOnCEVb0kZ4IC57I2yzet8KVrYG2",
+      "id": 12
+    },
+    {
+      "email": "xxx@gmail.com",
+      "password": "$2a$10$MUJzLoz8AkABbSrQndSc1Of7wDhceGfHUZSkbT/e06tp.LhLVT.eK",
+      "id": 13
+    }
+  ],
+  "posts": [
+    {
+      "title": "12341234123",
+      "completed": false,
+      "id": "YxuP-VgvBMA"
+    },
+    {
+      "title": "123",
+      "completed": false,
+      "id": "qAjvvFi"
+    },
+    {
+      "title": "1",
+      "completed": false,
+      "id": "WLtRjfG"
+    },
+    {
+      "title": "12341234",
+      "completed": false,
+      "id": "LazuFMI"
+    }
+  ]
+}
